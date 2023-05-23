@@ -1,0 +1,19 @@
+ecoli.processes.spatiality package
+==================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ecoli.processes.spatiality.diffusion_network
+   ecoli.processes.spatiality.spatial_geometry
+
+Module contents
+---------------
+
+.. automodule:: ecoli.processes.spatiality
+   :members:
+   :undoc-members:
+   :show-inheritance:

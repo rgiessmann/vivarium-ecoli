@@ -1,0 +1,4 @@
+.. automodule:: ecoli.experiments.tet_amp_sim
+   :members:
+   :undoc-members:
+   :show-inheritance:

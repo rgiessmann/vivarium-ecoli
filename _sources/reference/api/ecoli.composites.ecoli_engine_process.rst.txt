@@ -1,0 +1,4 @@
+.. automodule:: ecoli.composites.ecoli_engine_process
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,10 @@
+ecoli.composites.ecoli\_configs package
+=======================================
+
+Module contents
+---------------
+
+.. automodule:: ecoli.composites.ecoli_configs
+   :members:
+   :undoc-members:
+   :show-inheritance:

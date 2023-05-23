@@ -1,0 +1,4 @@
+.. automodule:: ecoli.composites.environment.grow_divide
+   :members:
+   :undoc-members:
+   :show-inheritance:

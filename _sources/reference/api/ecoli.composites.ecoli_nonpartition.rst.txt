@@ -1,0 +1,4 @@
+.. automodule:: ecoli.composites.ecoli_nonpartition
+   :members:
+   :undoc-members:
+   :show-inheritance:

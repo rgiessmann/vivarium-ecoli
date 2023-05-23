@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.bulk_timeline
+   :members:
+   :undoc-members:
+   :show-inheritance:

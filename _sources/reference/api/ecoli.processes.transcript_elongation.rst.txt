@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.transcript_elongation
+   :members:
+   :undoc-members:
+   :show-inheritance:

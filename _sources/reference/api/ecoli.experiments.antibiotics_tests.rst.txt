@@ -1,0 +1,4 @@
+.. automodule:: ecoli.experiments.antibiotics_tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

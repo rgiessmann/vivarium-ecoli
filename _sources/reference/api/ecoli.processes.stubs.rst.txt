@@ -1,0 +1,19 @@
+ecoli.processes.stubs package
+=============================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ecoli.processes.stubs.exchange_stub
+   ecoli.processes.stubs.exchanger_stub
+
+Module contents
+---------------
+
+.. automodule:: ecoli.processes.stubs
+   :members:
+   :undoc-members:
+   :show-inheritance:

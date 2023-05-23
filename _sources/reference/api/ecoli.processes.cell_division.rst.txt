@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.cell_division
+   :members:
+   :undoc-members:
+   :show-inheritance:

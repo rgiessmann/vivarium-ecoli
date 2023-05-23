@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.chemotaxis.flagella_motor
+   :members:
+   :undoc-members:
+   :show-inheritance:

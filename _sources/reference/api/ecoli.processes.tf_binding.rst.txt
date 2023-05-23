@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.tf_binding
+   :members:
+   :undoc-members:
+   :show-inheritance:

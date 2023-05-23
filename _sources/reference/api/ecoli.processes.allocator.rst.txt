@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.allocator
+   :members:
+   :undoc-members:
+   :show-inheritance:

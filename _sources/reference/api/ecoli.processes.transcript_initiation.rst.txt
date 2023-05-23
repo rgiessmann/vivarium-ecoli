@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.transcript_initiation
+   :members:
+   :undoc-members:
+   :show-inheritance:

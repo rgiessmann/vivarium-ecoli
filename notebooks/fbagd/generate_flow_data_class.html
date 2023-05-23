@@ -1,0 +1,2842 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Import simulation output &mdash; Vivarium E. coli 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Vivarium E. coli
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/processes.html">Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/composites.html">Composites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/experiments.html">Experiments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs.html">Working with Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference Material</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Vivarium E. coli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Import simulation output</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/notebooks/fbagd/generate_flow_data_class.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">dill</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">xmltodict</span>
+<span class="kn">import</span> <span class="nn">cvxpy</span> <span class="k">as</span> <span class="nn">cp</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">logsumexp</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;darkgrid&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="s1">&#39;talk&#39;</span><span class="p">)</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/vivarium-ecoli&#39;</span><span class="p">))</span>
+
+<span class="kn">from</span> <span class="nn">ecoli.processes.metabolism_redux</span> <span class="kn">import</span> <span class="n">NetworkFlowModel</span><span class="p">,</span> <span class="n">FlowResult</span>
+</pre></div>
+</div>
+</div>
+<section id="Import-simulation-output">
+<h1>Import simulation output<a class="headerlink" href="#Import-simulation-output" title="Permalink to this heading"></a></h1>
+<p>Before running this, run a sim in ecoli/experiments/metabolism_redux_sim.py with -n 2 to generate a simulation output. This is necessary to replicate the simulation environment. Use the default .json config.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time</span> <span class="o">=</span> <span class="s1">&#39;10&#39;</span>
+<span class="n">date</span> <span class="o">=</span> <span class="s1">&#39;2023-04-14&#39;</span>
+<span class="n">experiment</span> <span class="o">=</span> <span class="s1">&#39;fba-redux-standard&#39;</span>
+<span class="n">entry</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">experiment</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="n">folder</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;out/fbagd/</span><span class="si">{</span><span class="n">entry</span><span class="si">}</span><span class="s1">/&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">folder</span> <span class="o">+</span> <span class="s1">&#39;output.npy&#39;</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="s1">&#39;TRUE&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="c1"># output = np.load(r&quot;out/geneRxnVerifData/output_glc.npy&quot;, allow_pickle=True, encoding=&#39;ASCII&#39;).tolist()</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;agents&#39;</span><span class="p">][</span><span class="s1">&#39;0&#39;</span><span class="p">]</span>
+<span class="n">fba</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;listeners&#39;</span><span class="p">][</span><span class="s1">&#39;fba_results&#39;</span><span class="p">]</span>
+<span class="n">mass</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;listeners&#39;</span><span class="p">][</span><span class="s1">&#39;mass&#39;</span><span class="p">]</span>
+<span class="n">bulk</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;bulk&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">folder</span> <span class="o">+</span> <span class="s1">&#39;agent_steps.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">dill</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stoichiometry</span> <span class="o">=</span> <span class="n">agent</span><span class="p">[</span><span class="s1">&#39;ecoli-metabolism&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stoichiometry</span>
+<span class="n">maintenance_reaction</span> <span class="o">=</span> <span class="n">agent</span><span class="p">[</span><span class="s1">&#39;ecoli-metabolism&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">maintenance_reaction</span>
+<span class="n">stoichiometry</span><span class="p">[</span><span class="s2">&quot;maintenance_reaction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">maintenance_reaction</span>
+
+<span class="n">bad_rxns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;RXN-12440&quot;</span><span class="p">,</span> <span class="s2">&quot;TRANS-RXN-121&quot;</span><span class="p">,</span> <span class="s2">&quot;TRANS-RXN-300&quot;</span><span class="p">,</span> <span class="s2">&quot;TRANS-RXN-8&quot;</span><span class="p">,</span> <span class="s2">&quot;R15-RXN-MET/CPD-479//CPD-479/MET.25.&quot;</span><span class="p">]</span>
+<span class="c1"># generate carbon mistake in parca, efflux/influx proton gen, iron cheating, mass gen</span>
+<span class="k">for</span> <span class="n">rxn</span> <span class="ow">in</span> <span class="n">bad_rxns</span><span class="p">:</span>
+    <span class="n">stoichiometry</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">rxn</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<p>Pandas automatically understands dicts of dicts as matrices.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_fluxes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fba</span><span class="p">[</span><span class="s2">&quot;estimated_fluxes&quot;</span><span class="p">])</span>
+<span class="n">sim_fluxes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sim_fluxes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">sim_fluxes</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># plot the top 10 fluxes from sim_fluxes as a bar plot.</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim_fluxes</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+
+<span class="c1"># shorten all xtick names to 10 characters</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)],</span> <span class="p">[</span><span class="n">i</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sim_fluxes</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="mi">10</span><span class="p">]],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Flux (mmol/gDCW/hr)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top 10 Fluxes&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_fbagd_generate_flow_data_class_7_0.png" src="../../_images/notebooks_fbagd_generate_flow_data_class_7_0.png" />
+</div>
+</div>
+</section>
+<section id="Test-changing-nutrient-composition">
+<h1>Test changing nutrient composition<a class="headerlink" href="#Test-changing-nutrient-composition" title="Permalink to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uptake</span> <span class="o">=</span> <span class="p">(</span><span class="n">fba</span><span class="p">[</span><span class="s2">&quot;unconstrained_molecules&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">uptake_c</span> <span class="o">=</span> <span class="n">fba</span><span class="p">[</span><span class="s2">&quot;constrained_molecules&quot;</span><span class="p">]</span>
+
+<span class="n">uptake</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">uptake_c</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="n">uptake</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">uptake</span><span class="p">)</span>
+
+<span class="c1"># addition = set([&quot;CPD0-1074[c]&quot;])</span>
+<span class="n">addition</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span>
+        <span class="s2">&quot;FRU[p]&quot;</span><span class="p">,</span>
+        <span class="c1"># &quot;NITRATE[p]&quot;</span>
+        <span class="c1"># &#39;THIAMINE[p]&#39;,</span>
+        <span class="c1"># &#39;HYDROGEN-MOLECULE[p]&#39;,</span>
+        <span class="c1"># &#39;FUM[p]&#39;</span>
+<span class="p">])</span>
+<span class="n">removals</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span>
+                  <span class="s2">&quot;GLC[p]&quot;</span><span class="p">,</span>
+               <span class="c1">#      # &#39;AMMONIUM[c]&#39;,</span>
+               <span class="c1">#      # &#39;WATER[p]&#39;</span>
+               <span class="c1">#       # &#39;Pi[p]&#39;,</span>
+               <span class="c1">#       # &#39;SULFATE[p]&#39;</span>
+               <span class="c1"># &#39;OXYGEN-MOLECULE[p]&#39;</span>
+<span class="p">])</span>
+
+
+<span class="n">uptake</span> <span class="o">=</span> <span class="n">uptake</span> <span class="o">|</span> <span class="n">addition</span>
+<span class="n">uptake</span> <span class="o">=</span> <span class="n">uptake</span> <span class="o">-</span> <span class="n">removals</span>
+<span class="n">uptake</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;AMMONIUM[c]&#39;,
+ &#39;CA+2[p]&#39;,
+ &#39;CARBON-DIOXIDE[p]&#39;,
+ &#39;CL-[p]&#39;,
+ &#39;CO+2[p]&#39;,
+ &#39;FE+2[p]&#39;,
+ &#39;FRU[p]&#39;,
+ &#39;K+[p]&#39;,
+ &#39;L-SELENOCYSTEINE[c]&#39;,
+ &#39;MG+2[p]&#39;,
+ &#39;MN+2[p]&#39;,
+ &#39;NA+[p]&#39;,
+ &#39;NI+2[p]&#39;,
+ &#39;OXYGEN-MOLECULE[p]&#39;,
+ &#39;Pi[p]&#39;,
+ &#39;SULFATE[p]&#39;,
+ &#39;WATER[p]&#39;,
+ &#39;ZN+2[p]&#39;}
+</pre></div></div>
+</div>
+</section>
+<section id="Use-NetworkFlowModel-class-to-run-model">
+<h1>Use NetworkFlowModel class to run model<a class="headerlink" href="#Use-NetworkFlowModel-class-to-run-model" title="Permalink to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">homeostatic</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fba</span><span class="p">[</span><span class="s2">&quot;target_homeostatic_dmdt&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">exchanges</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fba</span><span class="p">[</span><span class="s2">&quot;estimated_exchange_dmdt&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">maintenance</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fba</span><span class="p">[</span><span class="s2">&quot;target_maintenance_flux&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">kinetic</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fba</span><span class="p">[</span><span class="s2">&quot;target_kinetic_fluxes&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">homeostatic</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2-3-DIHYDROXYBENZOATE[c]          73
+2-KETOGLUTARATE[c]               187
+2-PG[c]                           49
+2K-4CH3-PENTANOATE[c]             72
+4-AMINO-BUTYRATE[c]              161
+                              ...
+WATER[c]                    22086088
+XYLULOSE-5-PHOSPHATE[c]           89
+ZN+2[c]                           89
+ZN+2[p]                           53
+glycogen-monomer[c]            35110
+Name: 4, Length: 172, dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">NetworkFlowModel</span><span class="p">(</span><span class="n">reactions</span><span class="o">=</span><span class="n">stoichiometry</span><span class="p">,</span> <span class="n">homeostatic_metabolites</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">homeostatic</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">set_up_exchanges</span><span class="p">(</span><span class="n">exchanges</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">exchanges</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">uptakes</span><span class="o">=</span><span class="n">uptake</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solution</span><span class="p">:</span> <span class="n">FlowResult</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">homeostatic_targets</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">homeostatic</span><span class="p">),</span>
+                                   <span class="n">maintenance_target</span><span class="o">=</span><span class="n">maintenance</span><span class="p">,</span>
+                                   <span class="n">kinetic_targets</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">kinetic</span><span class="p">),</span>
+                                   <span class="n">binary_kinetic_targets</span><span class="o">=</span><span class="p">{},</span>
+                                   <span class="n">objective_weights</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;secretion&#39;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span> <span class="s1">&#39;efficiency&#39;</span><span class="p">:</span> <span class="mf">0.00001</span><span class="p">,</span> <span class="s1">&#39;kinetics&#39;</span><span class="p">:</span> <span class="mf">0.000001</span><span class="p">},</span>
+                                   <span class="n">upper_flux_bound</span><span class="o">=</span><span class="mi">100000000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">solution</span><span class="o">.</span><span class="n">exchanges</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+WATER[p]              1.736816e+07
+FRU[p]                1.410108e+06
+AMMONIUM[c]           1.375859e+06
+OXYGEN-MOLECULE[p]    1.289748e+06
+Pi[p]                 1.776750e+05
+K+[p]                 5.145700e+04
+SULFATE[p]            3.335100e+04
+MG+2[p]               2.287000e+03
+FE+2[p]               1.930000e+03
+CA+2[p]               1.425000e+03
+dtype: float64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">solution</span><span class="o">.</span><span class="n">velocities</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+TRANS-RXN-145                                                                  1.736816e+07
+ATPSYN-RXN (reverse)                                                           4.181745e+06
+maintenance_reaction                                                           3.058992e+06
+GAPOXNPHOSPHN-RXN                                                              2.307510e+06
+PHOSGLYPHOS-RXN (reverse)                                                      2.307502e+06
+NADH-DEHYDROG-A-RXN-NADH/UBIQUINONE-8/PROTON//NAD/CPD-9956/PROTON.46.          2.223745e+06
+3PGAREARR-RXN (reverse)                                                        2.083406e+06
+2PGADEHYDRAT-RXN                                                               2.083357e+06
+TRANS-RXN0-545[CCO-PM-BAC-NEG]-CARBON-DIOXIDE//CARBON-DIOXIDE.47. (reverse)    1.893273e+06
+TRANS-RXN0-582-FRU/PTSI-PHOSPHORYLATED//FRU1P/PTSI-MONOMER.44.                 1.410108e+06
+dtype: float64
+</pre></div></div>
+</div>
+</section>
+<section id="Filter-S-matrix-to-only-include-nonzero-fluxes.">
+<h1>Filter S matrix to only include nonzero fluxes.<a class="headerlink" href="#Filter-S-matrix-to-only-include-nonzero-fluxes." title="Permalink to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># only include nonzero fluxes in solution.velocities</span>
+<span class="n">nonzero_velocities</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">solution</span><span class="o">.</span><span class="n">velocities</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use nonzero_velocities to filter S matrix</span>
+<span class="n">S_matrix</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Sd</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">nonzero_velocities</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+
+<span class="c1"># remove rows of S_used that sum to zero.</span>
+<span class="n">S_matrix</span> <span class="o">=</span> <span class="n">S_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">S_matrix</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nonzero_velocities</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;1.5.1.20-RXN-5-METHYL-THF/NAD//METHYLENE-THF/NADH/PROTON.44. (reverse)&#39;: 3851.0,
+ &#39;1.5.1.20-RXN-CPD-1302/NAD//CPD-12996/NADH/PROTON.36. (reverse)&#39;: 16094.999999999989,
+ &#39;1PFRUCTPHOSN-RXN&#39;: 1238117.9886565725,
+ &#39;1TRANSKETO-RXN (reverse)&#39;: 7974.0,
+ &#39;2-DEHYDROPANTOATE-REDUCT-RXN (reverse)&#39;: 1131.0000000000043,
+ &#39;2-ISOPROPYLMALATESYN-RXN&#39;: 56297.00000000001,
+ &#39;2-OCTAPRENYL-6-METHOXYPHENOL-HYDROX-RXN&#39;: 300.0,
+ &#39;2-OCTAPRENYL-6-OHPHENOL-METHY-RXN&#39;: 300.0,
+ &#39;2-OCTAPRENYL-METHOXY-BENZOQ-METH-RXN&#39;: 300.0,
+ &#39;2-OCTAPRENYLPHENOL-HYDROX-RXN&#39;: 300.0,
+ &#39;2.3.1.157-RXN&#39;: 16505.000000000004,
+ &#39;2.5.1.19-RXN&#39;: 50577.000000000044,
+ &#39;2.5.1.64-RXN&#39;: 105.99999999999997,
+ &#39;2.7.1.148-RXN&#39;: 47391.00000000001,
+ &#39;2.7.7.60-RXN&#39;: 47391.00000000001,
+ &#39;2.8.1.6-RXN&#39;: 10.0,
+ &#39;2OXOGLUTARATEDEH-RXN&#39;: 248858.97731314733,
+ &#39;2PGADEHYDRAT-RXN&#39;: 2083356.9773131476,
+ &#39;2TRANSKETO-RXN (reverse)&#39;: 50658.00000000006,
+ &#39;3-CH3-2-OXOBUTANOATE-OH-CH3-XFER-RXN-CPD-12996/2-KETO-ISOVALERATE/WATER//2-DEHYDROPANTOATE/CPD-1301.63.&#39;: 1131.0000000000043,
+ &#39;3-DEHYDROQUINATE-DEHYDRATASE-RXN&#39;: 50584.00000000005,
+ &#39;3-DEHYDROQUINATE-SYNTHASE-RXN&#39;: 50584.000000000044,
+ &#39;3-OCTAPRENYL-4-OHBENZOATE-DECARBOX-RXN&#39;: 300.0,
+ &#39;3.2.2.10-RXN-CMP/WATER//RIBOSE-5P/CYTOSINE.30.&#39;: 4.0,
+ &#39;3.2.2.10-RXN-UMP/WATER//RIBOSE-5P/URACIL.28.&#39;: 1967.9999999999993,
+ &#39;325-BISPHOSPHATE-NUCLEOTIDASE-RXN&#39;: 30709.0,
+ &#39;3PGAREARR-RXN (reverse)&#39;: 2083405.9773131479,
+ &#39;4OHBENZOATE-OCTAPRENYLTRANSFER-RXN&#39;: 300.0,
+ &#39;5.1.3.20-RXN&#39;: 7772.0,
+ &#39;5.4.2.10-RXN-CPD-13469//GLUCOSAMINE-1P.26.&#39;: 16505.0,
+ &#39;6PGLUCONOLACT-RXN&#39;: 75194.99999999818,
+ &#39;ACECOATRANS-RXN-PROPIONYL-COA/ACET//PROPIONATE/ACETYL-COA.42.&#39;: 83124.0,
+ &#39;ACETATEKIN-RXN&#39;: 568.0,
+ &#39;ACETOLACTREDUCTOISOM-RXN (reverse)&#39;: 111927.99999999999,
+ &#39;ACETOLACTSYN-RXN&#39;: 90265.99999999997,
+ &#39;ACETOOHBUTREDUCTOISOM-RXN (reverse)&#39;: 39206.99999999999,
+ &#39;ACETOOHBUTSYN-RXN&#39;: 39206.99999999999,
+ &#39;ACETYL-COA-ACETYLTRANSFER-RXN&#39;: 10.0,
+ &#39;ACETYLGLUTKIN-RXN&#39;: 46480.0,
+ &#39;ACETYLORNDEACET-RXN&#39;: 46458.00000000001,
+ &#39;ACETYLORNTRANSAM-RXN (reverse)&#39;: 46480.0,
+ &#39;ACONITATEDEHYDR-RXN&#39;: 6.999999999999999,
+ &#39;ACSERLY-RXN&#39;: 33347.99999999999,
+ &#39;ADCLY-RXN&#39;: 99.0000000000191,
+ &#39;ADENOSYLHOMOCYSTEINE-NUCLEOSIDASE-RXN&#39;: 1070.9999999999998,
+ &#39;ADENPRIBOSYLTRAN-RXN (reverse)&#39;: 2823.0,
+ &#39;ADENYL-KIN-RXN&#39;: 277347.9999999965,
+ &#39;ADENYLOSUCCINATE-SYNTHASE-RXN&#39;: 36221.99999999829,
+ &#39;ADENYLYLSULFKIN-RXN&#39;: 33348.00000000001,
+ &#39;ADOMET-DMK-METHYLTRANSFER-RXN&#39;: 53.0,
+ &#39;AICARSYN-RXN&#39;: 43908.99999999832,
+ &#39;AICARTRANSFORM-RXN-10-FORMYL-THF/AICAR//THF/PHOSPHORIBOSYL-FORMAMIDO-CARBOXAMIDE.62.&#39;: 57150.99999999831,
+ &#39;AIRS-RXN&#39;: 43957.99999999832,
+ &#39;ALANINE-AMINOTRANSFERASE-RXN (reverse)&#39;: 81414.99999999999,
+ &#39;ALARACECAT-RXN&#39;: 4789.999999999999,
+ &#39;AMPSYN-RXN&#39;: 36221.99999999829,
+ &#39;ANTHRANSYN-RXN&#39;: 6468.0,
+ &#39;ARGSUCCINLYA-RXN&#39;: 36239.0,
+ &#39;ARGSUCCINSYN-RXN&#39;: 36332.0,
+ &#39;ASNSYNA-RXN&#39;: 29512.999999999996,
+ &#39;ASPAMINOTRANS-RXN&#39;: 128030.97731314946,
+ &#39;ASPARTASE-RXN (reverse)&#39;: 427027.9773131456,
+ &#39;ASPARTATE-SEMIALDEHYDE-DEHYDROGENASE-RXN (reverse)&#39;: 67322.99999999997,
+ &#39;ASPARTATEKIN-RXN&#39;: 43983.999999999985,
+ &#39;ASPCARBTRANS-RXN&#39;: 42405.999999999985,
+ &#39;ASPDECARBOX-RXN&#39;: 1131.0000000000043,
+ &#39;ATPPHOSPHORIBOSYLTRANS-RXN (reverse)&#39;: 13242.0,
+ &#39;ATPSYN-RXN (reverse)&#39;: 4181744.9891011873,
+ &#39;BRANCHED-CHAINAMINOTRANSFERILEU-RXN (reverse)&#39;: 39207.0,
+ &#39;BRANCHED-CHAINAMINOTRANSFERLEU-RXN (reverse)&#39;: 56224.99999999999,
+ &#39;BRANCHED-CHAINAMINOTRANSFERVAL-RXN (reverse)&#39;: 54499.99999999999,
+ &#39;CARDIOLIPSYN-RXN-CPD-8260//CPD-12824/GLYCEROL.29.&#39;: 1486.0,
+ &#39;CDPDIGLYSYN-RXN-CTP/CPD0-1422/PROTON//CPD-12815/PPI.36.&#39;: 30629.0,
+ &#39;CDPKIN-RXN&#39;: 90768.0,
+ &#39;CHORISMATE-SYNTHASE-RXN&#39;: 50577.000000000044,
+ &#39;CHORPYRLY-RXN&#39;: 326.99999999999994,
+ &#39;CITSYN-RXN&#39;: 482742.9773131492,
+ &#39;CPM-KDOSYNTH-RXN&#39;: 3886.0,
+ &#39;CYSTATHIONINE-BETA-LYASE-RXN&#39;: 19070.999999999993,
+ &#39;D-PPENTOMUT-RXN (reverse)&#39;: 1970.9999999999993,
+ &#39;DAPASYN-RXN&#39;: 10.0,
+ &#39;DEOXYADENPHOSPHOR-RXN (reverse)&#39;: 2.0,
+ &#39;DEOXYGUANPHOSPHOR-RXN (reverse)&#39;: 1.0,
+ &#39;DEOXYRIBOSE-P-ALD-RXN (reverse)&#39;: 2130.9999999999995,
+ &#39;DEPHOSPHOCOAKIN-RXN&#39;: 1107.0000000000043,
+ &#39;DETHIOBIOTIN-SYN-RXN&#39;: 10.0,
+ &#39;DHBDEHYD-RXN&#39;: 234.99999999999997,
+ &#39;DHHB-METHYLTRANSFER-RXN&#39;: 300.0,
+ &#39;DIAMINOPIMDECARB-RXN&#39;: 44068.0,
+ &#39;DIAMINOPIMEPIM-RXN&#39;: 48067.99999999999,
+ &#39;DIHYDRODIPICSYN-RXN&#39;: 48126.0,
+ &#39;DIHYDROFOLATESYNTH-RXN&#39;: 99.0000000000191,
+ &#39;DIHYDRONEOPTERIN-MONO-P-DEPHOS-RXN&#39;: 99.0000000000191,
+ &#39;DIHYDROOROT-RXN (reverse)&#39;: 42092.999999999985,
+ &#39;DIHYDROOROTATE-DEHYDROGENASE-RXN-DI-H-OROTATE/UBIQUINONE-8//OROTATE/CPD-9956.44.&#39;: 41058.999999999985,
+ &#39;DIHYDROXYISOVALDEHYDRAT-RXN&#39;: 111927.99999999999,
+ &#39;DIHYDROXYMETVALDEHYDRAT-RXN&#39;: 39206.99999999999,
+ &#39;DIMETHUROPORDEHYDROG-RXN&#39;: 54.00000000000001,
+ &#39;DIOHBUTANONEPSYN-RXN&#39;: 258.0,
+ &#39;DMK-RXN&#39;: 105.99999999999997,
+ &#39;DTDPKIN-RXN&#39;: 2455.9999999999995,
+ &#39;DTMPKI-RXN&#39;: 2655.9999999999995,
+ &#39;DURIDKI-RXN&#39;: 1967.9999999999995,
+ &#39;DXPREDISOM-RXN (reverse)&#39;: 47391.00000000001,
+ &#39;DXS-RXN&#39;: 47489.00000000001,
+ &#39;ENTMULTI-RXN&#39;: 54.00000000000001,
+ &#39;ERYTH4PDEHYDROG-RXN&#39;: 48.99999999999999,
+ &#39;ERYTHRON4PDEHYDROG-RXN&#39;: 48.99999999999999,
+ &#39;FADSYN-RXN&#39;: 91.0,
+ &#39;FGAMSYN-RXN&#39;: 43957.99999999832,
+ &#39;FPPSYN-RXN&#39;: 4419.000000000001,
+ &#39;FRUCTOKINASE-RXN&#39;: 171989.99999999825,
+ &#39;GAPOXNPHOSPHN-RXN&#39;: 2307509.9773131446,
+ &#39;GART-RXN-10-FORMYL-THF/5-PHOSPHO-RIBOSYL-GLYCINEAMIDE//THF/5-P-RIBOSYL-N-FORMYLGLYCINEAMIDE/PROTON.90.&#39;: 43957.99999999832,
+ &#39;GDPKIN-RXN&#39;: 65152.99999999831,
+ &#39;GDPPYPHOSKIN-RXN&#39;: 24.999999999999996,
+ &#39;GLU6PDEHYDROG-RXN-GLC-6-P/NADP//D-6-P-GLUCONO-DELTA-LACTONE/NADPH/PROTON.55.&#39;: 75194.99999999817,
+ &#39;GLUC1PADENYLTRANS-RXN&#39;: 35111.0,
+ &#39;GLUC1PURIDYLTRANS-RXN&#39;: 9401.0,
+ &#39;GLUCOSAMINE-6-P-DEAMIN-RXN (reverse)&#39;: 17117.0,
+ &#39;GLUTAMINESYN-RXN&#39;: 122975.99999999665,
+ &#39;GLUTATHIONE-SYN-RXN&#39;: 7682.0,
+ &#39;GLUTCYSLIG-RXN&#39;: 7682.0,
+ &#39;GLUTDEHYD-RXN (reverse)&#39;: 708489.0226868491,
+ &#39;GLUTKIN-RXN&#39;: 25565.0,
+ &#39;GLUTRACE-RXN&#39;: 3999.9999999999995,
+ &#39;GLUTRNAREDUCT-RXN (reverse)&#39;: 864.0000000000003,
+ &#39;GLUTSEMIALDEHYDROG-RXN (reverse)&#39;: 25565.0,
+ &#39;GLYC3PDEHYDROGBIOSYN-RXN-GLYCEROL-3P/NAD//DIHYDROXY-ACETONE-PHOSPHATE/NADH/PROTON.57. (reverse)&#39;: 39046.00000000001,
+ &#39;GLYCDEH-RXN&#39;: 1485.9999999999998,
+ &#39;GLYCOLALD-DEHYDROG-RXN&#39;: 99.00000000001907,
+ &#39;GLYCOLATEDEHYDRO-RXN&#39;: 99.00000000001909,
+ &#39;GLYOHMETRANS-RXN-SER/CPD-1301//GLY/CPD-12996/WATER.34.&#39;: 17225.999999999993,
+ &#39;GLYOHMETRANS-RXN-SER/THF//GLY/METHYLENE-THF/WATER.33.&#39;: 107665.99999999665,
+ &#39;GLYRIBONUCSYN-RXN&#39;: 43957.99999999832,
+ &#39;GMKALT-RXN (reverse)&#39;: 26.999999999999996,
+ &#39;GMP-SYN-NH3-RXN&#39;: 20522.000000000022,
+ &#39;GPPSYN-RXN&#39;: 4419.000000000001,
+ &#39;GSAAMINOTRANS-RXN&#39;: 864.0000000000003,
+ &#39;GTP-CYCLOHYDRO-I-RXN&#39;: 99.0000000000191,
+ &#39;GTP-CYCLOHYDRO-II-RXN&#39;: 129.0,
+ &#39;GUANYL-KIN-RXN&#39;: 29205.000000000022,
+ &#39;H2NEOPTERINALDOL-RXN&#39;: 99.0000000000191,
+ &#39;H2NEOPTERINP3PYROPHOSPHOHYDRO-RXN&#39;: 99.0000000000191,
+ &#39;H2PTERIDINEPYROPHOSPHOKIN-RXN&#39;: 99.0000000000191,
+ &#39;H2PTEROATESYNTH-RXN&#39;: 99.0000000000191,
+ &#39;HISTAMINOTRANS-RXN (reverse)&#39;: 13241.999999999998,
+ &#39;HISTCYCLOHYD-RXN&#39;: 13241.999999999996,
+ &#39;HISTIDPHOS-RXN[CCO-CYTOSOL]-L-HISTIDINOL-P/WATER//HISTIDINOL/Pi.49.&#39;: 13241.999999999998,
+ &#39;HISTPRATPHYD-RXN&#39;: 13241.999999999998,
+ &#39;HOMOCYSMET-RXN&#39;: 16094.999999999989,
+ &#39;HOMOCYSMETB12-RXN-HOMO-CYS/5-METHYL-THF//MET/THF.31.&#39;: 3850.9999999999995,
+ &#39;HOMOSERDEHYDROG-RXN-HOMO-SER/NAD//L-ASPARTATE-SEMIALDEHYDE/NADH/PROTON.51. (reverse)&#39;: 19196.999999999993,
+ &#39;HOMSUCTRAN-RXN&#39;: 19070.99999999999,
+ &#39;IGPSYN-RXN&#39;: 6467.0,
+ &#39;IMIDPHOSDEHYD-RXN&#39;: 13242.0,
+ &#39;IMP-DEHYDROG-RXN&#39;: 20522.000000000022,
+ &#39;IMPCYCLOHYDROLASE-RXN (reverse)&#39;: 57150.99999999831,
+ &#39;INOPHOSPHOR-RXN (reverse)&#39;: 2.0000000000000004,
+ &#39;INORGPYROPHOSPHAT-RXN[CCO-CYTOSOL]-PPI/WATER//Pi/PROTON.34.&#39;: 535477.999999998,
+ &#39;INOSINEKIN-RXN&#39;: 3.0000000000000004,
+ &#39;ISOCHORMAT-RXN&#39;: 234.99999999999997,
+ &#39;ISOCIT-CLEAV-RXN&#39;: 62574.00000000164,
+ &#39;ISOCITDEH-RXN&#39;: 419041.9773131475,
+ &#39;ISPH2-RXN (reverse)&#39;: 42972.0,
+ &#39;KDO-8PPHOSPHAT-RXN&#39;: 3886.0,
+ &#39;KDO-8PSYNTH-RXN&#39;: 3886.0,
+ &#39;KDOTRANS-RXN&#39;: 1943.0,
+ &#39;KDOTRANS2-RXN&#39;: 1943.0,
+ &#39;LIPIDADISACCHARIDESYNTH-RXN&#39;: 1943.0,
+ &#39;LIPIDXSYNTHESIS-RXN&#39;: 1943.0,
+ &#39;LUMAZINESYN-RXN&#39;: 258.0,
+ &#39;MALSYN-RXN&#39;: 1055.0,
+ &#39;METHENYLTHFCYCLOHYDRO-RXN-5-10-METHENYL-THF/WATER//10-FORMYL-THF/PROTON.46.&#39;: 101108.99999999664,
+ &#39;METHYLENETHFDEHYDROG-NADP-RXN-METHYLENE-THF/NADP//5-10-METHENYL-THF/NADPH.44.&#39;: 101108.99999999665,
+ &#39;METHYLMALONYL-COA-MUT-RXN (reverse)&#39;: 2.9999999999949027,
+ &#39;METHYLTHIOADENOSINE-NUCLEOSIDASE-RXN&#39;: 1638.0,
+ &#39;N-ACETYLGLUTPREDUCT-RXN (reverse)&#39;: 46480.0,
+ &#39;N-ACETYLTRANSFER-RXN&#39;: 46479.99999999999,
+ &#39;NACGLCTRANS-RXN&#39;: 4000.0,
+ &#39;NAD-KIN-RXN&#39;: 137.9999999999351,
+ &#39;NAD-SYNTH-NH3-RXN&#39;: 1407.9999999999018,
+ &#39;NADH-DEHYDROG-A-RXN-NADH/UBIQUINONE-8/PROTON//NAD/CPD-9956/PROTON.46.&#39;: 2223744.8865657286,
+ &#39;NAG1P-URIDYLTRANS-RXN&#39;: 16463.0,
+ &#39;NAPHTHOATE-SYN-RXN&#39;: 105.99999999999997,
+ &#39;NICONUCADENYLYLTRAN-RXN&#39;: 1407.9999999999018,
+ &#39;NUCLEOSIDE-DIPHOSPHATASE-RXN-DUDP/WATER//DUMP/Pi/PROTON.27.&#39;: 687.9999999999999,
+ &#39;O-SUCCHOMOSERLYASE-RXN&#39;: 19070.999999999993,
+ &#39;O-SUCCINYLBENZOATE-COA-LIG-RXN&#39;: 105.99999999999997,
+ &#39;O-SUCCINYLBENZOATE-COA-SYN-RXN&#39;: 105.99999999999997,
+ &#39;OCTAPRENYL-METHYL-METHOXY-BENZOQ-OH-RXN&#39;: 300.0,
+ &#39;OHMETHYLBILANESYN-RXN&#39;: 108.00000000000003,
+ &#39;ORNCARBAMTRANSFER-RXN&#39;: 36737.0,
+ &#39;ORNDECARBOX-RXN&#39;: 9716.0,
+ &#39;OROPRIBTRANS-RXN (reverse)&#39;: 38150.999999999985,
+ &#39;OROTPDECARB-RXN&#39;: 38150.99999999999,
+ &#39;P-PANTOCYSDECARB-RXN&#39;: 1107.0000000000043,
+ &#39;P-PANTOCYSLIG-RXN&#39;: 1107.0000000000043,
+ &#39;PABASYN-RXN&#39;: 99.00000000001909,
+ &#39;PANTEPADENYLYLTRAN-RXN&#39;: 1107.0000000000043,
+ &#39;PANTOATE-BETA-ALANINE-LIG-RXN&#39;: 1131.0000000000043,
+ &#39;PANTOTHENATE-KIN-RXN&#39;: 1107.0000000000043,
+ &#39;PDXJ-RXN&#39;: 48.99999999999999,
+ &#39;PEPCARBOX-RXN (reverse)&#39;: 354712.99999999977,
+ &#39;PEPDEPHOS-RXN (reverse)&#39;: 209423.9886565779,
+ &#39;PGLUCISOM-RXN-GLC-6-P//FRUCTOSE-6P.21. (reverse)&#39;: 122063.9999999982,
+ &#39;PGLYCDEHYDROG-RXN&#39;: 223276.99999999665,
+ &#39;PGPPHOSPHA-RXN-CPD-12821/WATER//CPD-8260/Pi.29.&#39;: 8324.000000000002,
+ &#39;PHOSGLYPHOS-RXN (reverse)&#39;: 2307501.9773131446,
+ &#39;PHOSNACMURPENTATRANS-RXN&#39;: 4000.0,
+ &#39;PHOSPHAGLYPSYN-RXN-CPD-12815/GLYCEROL-3P//CMP/CPD-12821/PROTON.44.&#39;: 8324.0,
+ &#39;PHOSPHASERDECARB-RXN-CPD-12817/PROTON//CPD-12819/CARBON-DIOXIDE.43.&#39;: 22305.0,
+ &#39;PHOSPHASERSYN-RXN-CPD-12815/SER//CMP/CPD-12817/PROTON.36.&#39;: 22305.0,
+ &#39;PHOSPHOGLUCMUT-RXN-GLC-1-P//GLC-6-P.17. (reverse)&#39;: 44511.99999999999,
+ &#39;PNPOXI-RXN&#39;: 48.99999999999999,
+ &#39;PORPHOBILSYNTH-RXN&#39;: 432.00000000000017,
+ &#39;PRAISOM-RXN&#39;: 6467.0,
+ &#39;PREPHENATEDEHYDRAT-RXN&#39;: 23552.000000000004,
+ &#39;PREPHENATEDEHYDROG-RXN&#39;: 19736.0,
+ &#39;PRIBFAICARPISOM-RXN&#39;: 13241.999999999996,
+ &#39;PROTOHEMEFERROCHELAT-RXN[CCO-CYTOSOL]-PROTOHEME/PROTON//PROTOPORPHYRIN_IX/FE+2.54. (reverse)&#39;: 54.00000000000001,
+ &#39;PRPPAMIDOTRANS-RXN (reverse)&#39;: 43957.99999999832,
+ &#39;PRPPSYN-RXN&#39;: 106137.99999999822,
+ &#39;PRPPSYN-RXN-CPD-15318/ATP//PRPP/AMP/PROTON.31.&#39;: 48.00000000000001,
+ &#39;PRTRANS-RXN (reverse)&#39;: 6467.0,
+ &#39;PSERTRANSAM-RXN (reverse)&#39;: 222526.99999999665,
+ &#39;PSERTRANSAMPYR-RXN (reverse)&#39;: 48.99999999999999,
+ &#39;PYRIMSYN1-RXN&#39;: 49.00000000000001,
+ &#39;PYRIMSYN3-RXN&#39;: 49.00000000000001,
+ &#39;PYRROLINECARBREDUCT-RXN-PRO/NAD//L-DELTA1-PYRROLINE_5-CARBOXYLATE/NADH/PROTON.54. (reverse)&#39;: 25565.0,
+ &#39;PYRUVDEH-RXN&#39;: 1027758.9773131489,
+ &#39;QUINOLINATE-SYNTHA-RXN&#39;: 1412.9999999999022,
+ &#39;QUINOPRIBOTRANS-RXN (reverse)&#39;: 1407.9999999999022,
+ &#39;R15-RXN-MET/2-KETOGLUTARATE//CPD-479/GLT.33. (reverse)&#39;: 61618.0000000017,
+ &#39;R15-RXN-MET/GLYOX//CPD-479/GLY.23.&#39;: 61618.000000001695,
+ &#39;RIB5PISOM-RXN (reverse)&#39;: 112399.99999999821,
+ &#39;RIBOFLAVIN-SYN-RXN&#39;: 129.0,
+ &#39;RIBOFLAVINKIN-RXN&#39;: 119.0,
+ &#39;RIBOFLAVINSYNDEAM-RXN&#39;: 129.0,
+ &#39;RIBOFLAVINSYNREDUC-RXN (reverse)&#39;: 129.0,
+ &#39;RIBOPHOSPHAT-RXN&#39;: 129.0,
+ &#39;RIBOSYLHOMOCYSTEINASE-RXN&#39;: 1070.9999999999998,
+ &#39;RIBULP3EPIM-RXN (reverse)&#39;: 42595.00000000005,
+ &#39;RXN-10814 (reverse)&#39;: 23505.0,
+ &#39;RXN-11032 (reverse)&#39;: 200.9999999999809,
+ &#39;RXN-11319&#39;: 49.00000000000001,
+ &#39;RXN-11475&#39;: 10.0,
+ &#39;RXN-11484&#39;: 10.0,
+ &#39;RXN-11832&#39;: 90785.0,
+ &#39;RXN-12002&#39;: 48257.999999999985,
+ &#39;RXN-12588&#39;: 10.0,
+ &#39;RXN-12611&#39;: 49.0,
+ &#39;RXN-13158&#39;: 56297.0,
+ &#39;RXN-13163 (reverse)&#39;: 56297.0,
+ &#39;RXN-13179&#39;: 48.99999999999999,
+ &#39;RXN-13202&#39;: 79142.99999999999,
+ &#39;RXN-13403&#39;: 54.00000000000001,
+ &#39;RXN-14014-DELTA1-PIPERIDEINE-2-6-DICARBOXYLATE/NAD/WATER//CPD-14443/NADH/PROTON.70. (reverse)&#39;: 48125.99999999999,
+ &#39;RXN-14025[CCO-CYTOSOL]-UMP/WATER//URIDINE/Pi.35.&#39;: 1111.0,
+ &#39;RXN-14026[CCO-CYTOSOL]-CMP/WATER//CYTIDINE/Pi.36.&#39;: 0.9999999999999999,
+ &#39;RXN-14047&#39;: 481759.97731314914,
+ &#39;RXN-14325&#39;: 14878.999999999993,
+ &#39;RXN-15216&#39;: 1071.0,
+ &#39;RXN-15878 (reverse)&#39;: 47391.00000000001,
+ &#39;RXN-15943 (reverse)&#39;: 1071.0,
+ &#39;RXN-16804&#39;: 3886.0,
+ &#39;RXN-17900&#39;: 13241.999999999998,
+ &#39;RXN-19329 (reverse)&#39;: 2755.000000000019,
+ &#39;RXN-19737&#39;: 1943.0,
+ &#39;RXN-21483-PROTOPORPHYRINOGEN/UBIQUINONE-8//PROTOPORPHYRIN_IX/CPD-9956.60.&#39;: 54.000000000000014,
+ &#39;RXN-21817-CPD-9956/PROTON/OXYGEN-MOLECULE//UBIQUINONE-8/PROTON/WATER.59.&#39;: 1288717.4319394387,
+ &#39;RXN-6081&#39;: 200.9999999999809,
+ &#39;RXN-6161&#39;: 80807.00000000006,
+ &#39;RXN-8001&#39;: 13235.999999999998,
+ &#39;RXN-8992&#39;: 405.99999999999994,
+ &#39;RXN-8999&#39;: 4013.0000000000005,
+ &#39;RXN-9310&#39;: 105.99999999999997,
+ &#39;RXN-9311&#39;: 105.99999999999997,
+ &#39;RXN-9772&#39;: 1412.9999999999025,
+ &#39;RXN-9952&#39;: 74069.99999999817,
+ &#39;RXN0-12&#39;: 89.0,
+ &#39;RXN0-1461&#39;: 54.000000000000014,
+ &#39;RXN0-16&#39;: 181.0,
+ &#39;RXN0-2421&#39;: 1878.0000000000002,
+ &#39;RXN0-2501&#39;: 686.0000000000001,
+ &#39;RXN0-268 (reverse)&#39;: 83124.0,
+ &#39;RXN0-302&#39;: 47391.00000000001,
+ &#39;RXN0-305&#39;: 750.0,
+ &#39;RXN0-310&#39;: 2.999999999994903,
+ &#39;RXN0-313 (reverse)&#39;: 1454.9999999999998,
+ &#39;RXN0-4301&#39;: 7772.0,
+ &#39;RXN0-4341&#39;: 7772.0,
+ &#39;RXN0-4342&#39;: 7772.0,
+ &#39;RXN0-4361&#39;: 7772.0,
+ &#39;RXN0-5038&#39;: 1.0000000000000002,
+ &#39;RXN0-5061&#39;: 1943.0,
+ &#39;RXN0-5114[CCO-CYTOSOL]-3-P-SERINE/WATER//SER/Pi.38.&#39;: 222526.99999999665,
+ &#39;RXN0-5118&#39;: 1943.0,
+ &#39;RXN0-5120&#39;: 1943.0,
+ &#39;RXN0-5121&#39;: 1943.0,
+ &#39;RXN0-5122&#39;: 1943.0,
+ &#39;RXN0-5123&#39;: 1943.0,
+ &#39;RXN0-5124&#39;: 1943.0,
+ &#39;RXN0-5125&#39;: 1943.0,
+ &#39;RXN0-5126&#39;: 1943.0,
+ &#39;RXN0-5127&#39;: 1943.0,
+ &#39;RXN0-5185[CCO-CYTOSOL]-CPD-2961/WATER//GLUCONATE/Pi.42.&#39;: 21.0,
+ &#39;RXN0-5186&#39;: 169010.99999999822,
+ &#39;RXN0-5199&#39;: 3.0,
+ &#39;RXN0-5224 (reverse)&#39;: 974623.999999998,
+ &#39;RXN0-5289 (reverse)&#39;: 750.0000000000001,
+ &#39;RXN0-5461&#39;: 1071.0,
+ &#39;RXN0-6550&#39;: 118.0,
+ &#39;RXN0-6562&#39;: 750.0,
+ &#39;RXN0-7352-GMP/WATER//GUANINE/CPD-15318.29.&#39;: 47.99999999999999,
+ &#39;RXN0-742&#39;: 43908.99999999832,
+ &#39;RXN0-743&#39;: 43908.99999999832,
+ &#39;RXN0-884 (reverse)&#39;: 4419.000000000001,
+ &#39;RXN3O-470-ACETALD//CPD-255.17. (reverse)&#39;: 200.9999999999786,
+ &#39;S-ADENMETSYN-RXN&#39;: 2934.0000000000005,
+ &#39;SAICARSYN-RXN&#39;: 43908.99999999832,
+ &#39;SAMDECARB-RXN&#39;: 1638.0,
+ &#39;SHIKIMATE-5-DEHYDROGENASE-RXN (reverse)&#39;: 50584.00000000004,
+ &#39;SHIKIMATE-KINASE-RXN&#39;: 50577.000000000044,
+ &#39;SIROHEME-FERROCHELAT-RXN&#39;: 54.00000000000001,
+ &#39;SPERMIDINESYN-RXN&#39;: 1638.0,
+ &#39;SPONTPRO-RXN (reverse)&#39;: 25565.0,
+ &#39;SUCCCOASYN-RXN (reverse)&#39;: 98411.97731314733,
+ &#39;SUCCDIAMINOPIMDESUCC-RXN&#39;: 48125.99999999999,
+ &#39;SUCCINATE-DEHYDROGENASE-UBIQUINONE-RXN-SUC/UBIQUINONE-8//FUM/CPD-9956.31.&#39;: 312468.97731314885,
+ &#39;SUCCINYLDIAMINOPIMTRANS-RXN (reverse)&#39;: 48125.99999999999,
+ &#39;SULFATE-ADENYLYLTRANS-RXN&#39;: 33351.0,
+ &#39;SULFITE-REDUCT-RXN (reverse)&#39;: 33348.0,
+ &#39;TETHYDPICSUCC-RXN&#39;: 48125.99999999999,
+ &#39;TETRAACYLDISACC4KIN-RXN&#39;: 1943.0,
+ &#39;THI-P-KIN-RXN&#39;: 48.99999999999999,
+ &#39;THREDEHYD-RXN&#39;: 39207.0,
+ &#39;THREONINE-ALDOLASE-RXN (reverse)&#39;: 79078.00000000001,
+ &#39;THYMIDYLATESYN-RXN-METHYLENE-THF/DUMP//TMP/DIHYDROFOLATE.38.&#39;: 2655.9999999999995,
+ &#39;TRANS-RXN-1&#39;: 497.00000000001916,
+ &#39;TRANS-RXN-114&#39;: 177621.9999999982,
+ &#39;TRANS-RXN-141&#39;: 2287.0,
+ &#39;TRANS-RXN-141A&#39;: 6.999999999999999,
+ &#39;TRANS-RXN-141B&#39;: 85.0,
+ &#39;TRANS-RXN-145&#39;: 17368157.068060577,
+ &#39;TRANS-RXN-3&#39;: 51456.99999999999,
+ &#39;TRANS-RXN-62A&#39;: 999.9999999999999,
+ &#39;TRANS-RXN0-277 (reverse)&#39;: 1067381.0453737085,
+ &#39;TRANS-RXN0-286&#39;: 3999.9999999999995,
+ &#39;TRANS-RXN0-459&#39;: 10.0,
+ &#39;TRANS-RXN0-461&#39;: 1638.0,
+ &#39;TRANS-RXN0-474&#39;: 1289695.9319394387,
+ &#39;TRANS-RXN0-497&#39;: 1372.0,
+ &#39;TRANS-RXN0-500&#39;: 49.00000000000001,
+ &#39;TRANS-RXN0-545[CCO-PM-BAC-NEG]-CARBON-DIOXIDE//CARBON-DIOXIDE.47. (reverse)&#39;: 1893272.9319394452,
+ &#39;TRANS-RXN0-556[CCO-PM-BAC-NEG]-CARBON-MONOXIDE//CARBON-MONOXIDE.49. (reverse)&#39;: 49.00000000000001,
+ &#39;TRANS-RXN0-586&#39;: 33351.0,
+ &#39;TRIOSEPISOMERIZATION-RXN (reverse)&#39;: 1177220.9886565723,
+ &#39;TRYPSYN-RXN&#39;: 6466.999999999999,
+ &#39;TYROSINE-AMINOTRANSFERASE-RXN (reverse)&#39;: 19736.0,
+ &#39;UDP-NACMUR-ALA-LIG-RXN&#39;: 4000.0,
+ &#39;UDP-NACMURALA-GLU-LIG-RXN&#39;: 4000.0,
+ &#39;UDP-NACMURALGLDAPAALIG-RXN&#39;: 4000.0,
+ &#39;UDP-NACMURALGLDAPLIG-RXN&#39;: 4000.0,
+ &#39;UDPACYLGLCNACDEACETYL-RXN&#39;: 3886.0,
+ &#39;UDPGLUCEPIM-RXN&#39;: 1942.9999999999998,
+ &#39;UDPKIN-RXN&#39;: 62720.999999999985,
+ &#39;UDPNACETYLGLUCOSAMENOLPYRTRANS-RXN&#39;: 4000.0,
+ &#39;UDPNACETYLMURAMATEDEHYDROG-RXN (reverse)&#39;: 4000.0,
+ &#39;UGD-RXN&#39;: 301.0,
+ &#39;UNDECAPRENYL-DIPHOSPHATASE-RXN[CCO-CYTOSOL]-UNDECAPRENYL-DIPHOSPHATE/WATER//CPD-9646/Pi/PROTON.64.&#39;: 3857.0,
+ &#39;URA-PHOSPH-RXN (reverse)&#39;: 1967.9999999999998,
+ &#39;UROGENDECARBOX-RXN&#39;: 54.000000000000014,
+ &#39;UROGENIIISYN-RXN&#39;: 108.00000000000004,
+ &#39;glycogen-monomer-extension&#39;: 35110.0,
+ &#39;GLURS-RXN-GLT-tRNAs/GLT/ATP/PROTON//Charged-GLT-tRNAs/AMP/PPI.52.&#39;: 864.0000000000003,
+ &#39;RXN0-5405&#39;: 1999.9999999999998,
+ &#39;RXN-11302&#39;: 999.9999999999999,
+ &#39;1.8.4.8-RXN (reverse)&#39;: 33348.00000000001,
+ &#39;2.3.1.180-RXN&#39;: 72915.99999999999,
+ &#39;3-HYDROXYDECANOYL-ACP-DEHYDR-RXN-POLYMER-INST-OH-ACYL-ACP-C0-H0//POLYMER-INST-TRANS-D2-ENOYL-ACP-C0-H0/WATER.76.&#39;: 72915.99999999997,
+ &#39;3-HYDROXYDECANOYL-ACP-DEHYDR-RXN-POLYMER-INST-OH-ACYL-ACP-C12-H24//2-Hexadecenoyl-ACPs/WATER.60.&#39;: 61258.0,
+ &#39;3-HYDROXYDECANOYL-ACP-DEHYDR-RXN-POLYMER-INST-OH-ACYL-ACP-C4-H8//POLYMER-INST-TRANS-D2-ENOYL-ACP-C4-H8/WATER.76.&#39;: 72915.99999999997,
+ &#39;3-OXOACYL-ACP-REDUCT-RXN-Beta-hydroxydecanoyl-ACPs/NADP//POLYMER-INST-B-KETOACYL-ACP-C6-H12/NADPH/PROTON.80. (reverse)&#39;: 72915.99999999997,
+ &#39;3-OXOACYL-ACP-REDUCT-RXN-POLYMER-INST-OH-ACYL-ACP-C0-H0/NADP//Acetoacetyl-ACPs/NADPH/PROTON.67. (reverse)&#39;: 72915.99999999997,
+ &#39;3-OXOACYL-ACP-REDUCT-RXN-POLYMER-INST-OH-ACYL-ACP-C12-H24/NADP//3-oxo-palmitoyl-ACPs/NADPH/PROTON.73. (reverse)&#39;: 61258.0,
+ &#39;3-OXOACYL-ACP-REDUCT-RXN-POLYMER-INST-OH-ACYL-ACP-C4-H8/NADP//3-Oxo-octanoyl-ACPs/NADPH/PROTON.70. (reverse)&#39;: 72915.99999999997,
+ &#39;3-OXOACYL-ACP-SYNTH-RXN-MALONYL-ACP/POLYMER-INST-Saturated-Fatty-Acyl-ACPs-C4-H8/PROTON//ACP/POLYMER-INST-B-KETOACYL-ACP-C6-H12/CARBON-DIOXIDE.119.&#39;: 72915.99999999997,
+ &#39;BIOTIN-CARBOXYL-RXN&#39;: 496858.9999999999,
+ &#39;ENOYL-ACP-REDUCT-NADH-RXN-Butanoyl-ACPs/NAD//POLYMER-INST-TRANS-D2-ENOYL-ACP-C0-H0/NADH/PROTON.69. (reverse)&#39;: 72915.99999999997,
+ &#39;ENOYL-ACP-REDUCT-NADH-RXN-POLYMER-INST-Saturated-Fatty-Acyl-ACPs-C4-H8/NAD//POLYMER-INST-TRANS-D2-ENOYL-ACP-C4-H8/NADH/PROTON.100. (reverse)&#39;: 72915.99999999997,
+ &#39;FERREDOXIN--NAD+-REDUCTASE-RXN (reverse)&#39;: 9.999999999999998,
+ &#39;LAUROYLACYLTRAN-RXN&#39;: 1943.0,
+ &#39;MALONYL-COA-ACP-TRANSACYL-RXN&#39;: 496840.9999999998,
+ &#39;MYRISTOYLACYLTRAN-RXN&#39;: 1943.0,
+ &#39;PRODISULFREDUCT-A-RXN-GLUTATHIONE/Oxidized-NrdH-Proteins//OXIDIZED-GLUTATHIONE/Reduced-NrdH-Proteins.79.&#39;: 714.9999999999999,
+ &#39;PYFLAVOXRE-RXN&#39;: 47391.00000000001,
+ &#39;PYRUFLAVREDUCT-RXN&#39;: 47440.00000000001,
+ &#39;RXN-11474&#39;: 10.0,
+ &#39;RXN-11476 (reverse)&#39;: 10.0,
+ &#39;RXN-11477&#39;: 10.0,
+ &#39;RXN-11478 (reverse)&#39;: 10.0,
+ &#39;RXN-11479&#39;: 10.0,
+ &#39;RXN-11480 (reverse)&#39;: 10.0,
+ &#39;RXN-11481&#39;: 10.0,
+ &#39;RXN-11482 (reverse)&#39;: 10.0,
+ &#39;RXN-11483&#39;: 10.0,
+ &#39;RXN-17018&#39;: 30629.0,
+ &#39;RXN-9516&#39;: 72915.99999999997,
+ &#39;RXN-9518 (reverse)&#39;: 72915.99999999997,
+ &#39;RXN-9520&#39;: 72915.99999999997,
+ &#39;RXN-9523&#39;: 72915.99999999997,
+ &#39;RXN-9531&#39;: 72915.99999999997,
+ &#39;RXN-9532 (reverse)&#39;: 72915.99999999997,
+ &#39;RXN-9533&#39;: 72915.99999999997,
+ &#39;RXN-9535&#39;: 70853.99999999999,
+ &#39;RXN-9536 (reverse)&#39;: 70972.99999999999,
+ &#39;RXN-9537&#39;: 63200.999999999985,
+ &#39;RXN-9539&#39;: 61258.00000000001,
+ &#39;RXN-9655&#39;: 72915.99999999999,
+ &#39;RXN-9658 (reverse)&#39;: 72915.99999999997,
+ &#39;RXN-9660 (reverse)&#39;: 72915.99999999997,
+ &#39;RXN-9661 (reverse)&#39;: 72915.99999999999,
+ &#39;RXN-9662 (reverse)&#39;: 63200.999999999985,
+ &#39;RXN-9663 (reverse)&#39;: 61258.0,
+ &#39;RXN-9787&#39;: 49.0,
+ &#39;RXN-9788&#39;: 49.0,
+ &#39;RXN-9789&#39;: 49.0,
+ &#39;RXN0-5055&#39;: 496858.9999999999,
+ &#39;RXN0-6705&#39;: 30628.999999999996,
+ &#39;RXN0-6717&#39;: 1410107.9886565704,
+ &#39;RXN0-722 (reverse)&#39;: 688.0,
+ &#39;RXN0-723&#39;: 18.0,
+ &#39;RXN0-745&#39;: 12.000000000000002,
+ &#39;RXN0-746&#39;: 8.000000000000002,
+ &#39;RXN0-748 (reverse)&#39;: 26.999999999999993,
+ &#39;THIAZOLSYN2-RXN&#39;: 49.0,
+ &#39;THIOREDOXIN-REDUCT-NADPH-RXN (reverse)&#39;: 33347.99999999999,
+ &#39;TRANS-RXN0-582-FRU/PTSI-PHOSPHORYLATED//FRU1P/PTSI-MONOMER.44.&#39;: 1410107.9886565704,
+ &#39;UDPHYDROXYMYRGLUCOSAMNACETYLTRANS-RXN&#39;: 3886.0,
+ &#39;UDPNACETYLGLUCOSAMACYLTRANS-RXN&#39;: 3886.0,
+ &#39;325-BISPHOSPHATE-NUCLEOTIDASE-RXN__EG10043-MONOMER&#39;: 2639.0,
+ &#39;ACETOLACTSYN-RXN__ACETOLACTSYNI-CPLX&#39;: 21863.000000000004,
+ &#39;ALARACECAT-RXN__CPLX0-8202&#39;: 2318.0,
+ &#39;ASNSYNA-RXN__ASNSYNB-CPLX&#39;: 381.0,
+ &#39;ASPARTATEKIN-RXN__ASPKINIHOMOSERDEHYDROGI-CPLX&#39;: 23339.0,
+ &#39;CATAL-RXN__HYDROPEROXIDI-CPLX&#39;: 24.499999999999996,
+ &#39;CHORISMATEMUT-RXN__CHORISMUTPREPHENDEHYDROG-CPLX&#39;: 43288.0,
+ &#39;DAHPSYN-RXN__AROG-CPLX&#39;: 50584.00000000005,
+ &#39;DALADALALIG-RXN__DALADALALIGB-CPLX&#39;: 942.0,
+ &#39;DALADALALIG-RXN__DALADALALIGA-MONOMER&#39;: 3112.0,
+ &#39;DARAB5PISOM-RXN__CPLX0-1262 (reverse)&#39;: 3886.0,
+ &#39;F16ALDOLASE-RXN__FRUCBISALD-CLASSII&#39;: 129836.0,
+ &#39;F16ALDOLASE-RXN__FRUCBISALD-CLASSI&#39;: 1087775.9886565723,
+ &#39;F16BDEPHOS-RXN[CCO-CYTOSOL]-FRUCTOSE-16-DIPHOSPHATE/WATER//FRUCTOSE-6P/Pi.59.__F16B-CPLX&#39;: 11249.0,
+ &#39;F16BDEPHOS-RXN[CCO-CYTOSOL]-FRUCTOSE-16-DIPHOSPHATE/WATER//FRUCTOSE-6P/Pi.59.__EG11239-MONOMER&#39;: 3294.0,
+ &#39;F16BDEPHOS-RXN[CCO-CYTOSOL]-FRUCTOSE-16-DIPHOSPHATE/WATER//FRUCTOSE-6P/Pi.59.__CPLX0-303&#39;: 2570.0,
+ &#39;F16BDEPHOS-RXN[CCO-CYTOSOL]-FRUCTOSE-16-DIPHOSPHATE/WATER//FRUCTOSE-6P/Pi.59.__CPLX0-7776&#39;: 4.0,
+ &#39;GLUTDECARBOX-RXN__GLUTDECARBOXB-CPLX&#39;: 161.00000000000003,
+ &#39;ISOCHORSYN-RXN__ENTC-MONOMER&#39;: 315.99999999999994,
+ &#39;ISOCHORSYN-RXN__MENF-CPLX&#39;: 24.999999999999996,
+ &#39;RXN-7609[CCO-CYTOSOL]-GMP/WATER//GUANOSINE/Pi.37.__G7742-MONOMER&#39;: 3.0,
+ &#39;RXN-9535__FABB-CPLX&#39;: 119.0,
+ &#39;RXN0-313__CPLX0-201 (reverse)&#39;: 30.999999999999996,
+ &#39;RXN0-384__H2NEOPTERINP3PYROPHOSPHOHYDRO-MONOMER&#39;: 4.000000000000001,
+ &#39;RXN0-5186__G7408-MONOMER&#39;: 2979.0,
+ &#39;SERINE-O-ACETTRAN-RXN__CPLX0-237&#39;: 17162.0,
+ &#39;SERINE-O-ACETTRAN-RXN__CYSSYNMULTI-CPLX&#39;: 16186.0,
+ &#39;UNDECAPRENYL-DIPHOSPHATASE-RXN[CCO-CYTOSOL]-UNDECAPRENYL-DIPHOSPHATE/WATER//CPD-9646/Pi/PROTON.64.__PGPPHOSPHAB-MONOMER&#39;: 143.0,
+ &#39;maintenance_reaction&#39;: 3058991.943727506}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S_matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1.5.1.20-RXN-5-METHYL-THF/NAD//METHYLENE-THF/NADH/PROTON.44. (reverse)</th>
+      <th>1.5.1.20-RXN-CPD-1302/NAD//CPD-12996/NADH/PROTON.36. (reverse)</th>
+      <th>1PFRUCTPHOSN-RXN</th>
+      <th>1TRANSKETO-RXN (reverse)</th>
+      <th>2-DEHYDROPANTOATE-REDUCT-RXN (reverse)</th>
+      <th>2-ISOPROPYLMALATESYN-RXN</th>
+      <th>2-OCTAPRENYL-6-METHOXYPHENOL-HYDROX-RXN</th>
+      <th>2-OCTAPRENYL-6-OHPHENOL-METHY-RXN</th>
+      <th>2-OCTAPRENYL-METHOXY-BENZOQ-METH-RXN</th>
+      <th>2-OCTAPRENYLPHENOL-HYDROX-RXN</th>
+      <th>...</th>
+      <th>ISOCHORSYN-RXN__MENF-CPLX</th>
+      <th>RXN-7609[CCO-CYTOSOL]-GMP/WATER//GUANOSINE/Pi.37.__G7742-MONOMER</th>
+      <th>RXN-9535__FABB-CPLX</th>
+      <th>RXN0-313__CPLX0-201 (reverse)</th>
+      <th>RXN0-384__H2NEOPTERINP3PYROPHOSPHOHYDRO-MONOMER</th>
+      <th>RXN0-5186__G7408-MONOMER</th>
+      <th>SERINE-O-ACETTRAN-RXN__CPLX0-237</th>
+      <th>SERINE-O-ACETTRAN-RXN__CYSSYNMULTI-CPLX</th>
+      <th>UNDECAPRENYL-DIPHOSPHATASE-RXN[CCO-CYTOSOL]-UNDECAPRENYL-DIPHOSPHATE/WATER//CPD-9646/Pi/PROTON.64.__PGPPHOSPHAB-MONOMER</th>
+      <th>maintenance_reaction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>NAD[c]</th>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>NADH[c]</th>
+      <td>-1</td>
+      <td>-1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PROTON[c]</th>
+      <td>-1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>GLUCONATE[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>NADP[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>R-3-hydroxymyristoyl-ACPs[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Adenylated-ThiS-Proteins[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>ThiS-CoASH-proteins[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Thi-S[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>FRU[p]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>491 rows × 470 columns</p>
+</div></div>
+</div>
+</section>
+<section id="First-test.-Single-flux-set.-No-eQuilibrator-or-regulation.">
+<h1>First test. Single flux set. No eQuilibrator or regulation.<a class="headerlink" href="#First-test.-Single-flux-set.-No-eQuilibrator-or-regulation." title="Permalink to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sort nonzero_velocities to be in same order as S_matrix columns.</span>
+<span class="n">vE_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">nonzero_velocities</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">S_matrix</span><span class="o">.</span><span class="n">columns</span><span class="p">}</span>
+<span class="n">vE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">vE_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()))])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Sd</span> <span class="o">=</span> <span class="n">S_matrix</span>
+<span class="c1"># Sd = pd.DataFrame(stoich_dict, dtype=np.int8).fillna(0).astype(np.int8)</span>
+<span class="c1"># Sd = Sd.iloc[0:7, 0:2]</span>
+
+<span class="n">Sd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1.5.1.20-RXN-5-METHYL-THF/NAD//METHYLENE-THF/NADH/PROTON.44. (reverse)</th>
+      <th>1.5.1.20-RXN-CPD-1302/NAD//CPD-12996/NADH/PROTON.36. (reverse)</th>
+      <th>1PFRUCTPHOSN-RXN</th>
+      <th>1TRANSKETO-RXN (reverse)</th>
+      <th>2-DEHYDROPANTOATE-REDUCT-RXN (reverse)</th>
+      <th>2-ISOPROPYLMALATESYN-RXN</th>
+      <th>2-OCTAPRENYL-6-METHOXYPHENOL-HYDROX-RXN</th>
+      <th>2-OCTAPRENYL-6-OHPHENOL-METHY-RXN</th>
+      <th>2-OCTAPRENYL-METHOXY-BENZOQ-METH-RXN</th>
+      <th>2-OCTAPRENYLPHENOL-HYDROX-RXN</th>
+      <th>...</th>
+      <th>ISOCHORSYN-RXN__MENF-CPLX</th>
+      <th>RXN-7609[CCO-CYTOSOL]-GMP/WATER//GUANOSINE/Pi.37.__G7742-MONOMER</th>
+      <th>RXN-9535__FABB-CPLX</th>
+      <th>RXN0-313__CPLX0-201 (reverse)</th>
+      <th>RXN0-384__H2NEOPTERINP3PYROPHOSPHOHYDRO-MONOMER</th>
+      <th>RXN0-5186__G7408-MONOMER</th>
+      <th>SERINE-O-ACETTRAN-RXN__CPLX0-237</th>
+      <th>SERINE-O-ACETTRAN-RXN__CYSSYNMULTI-CPLX</th>
+      <th>UNDECAPRENYL-DIPHOSPHATASE-RXN[CCO-CYTOSOL]-UNDECAPRENYL-DIPHOSPHATE/WATER//CPD-9646/Pi/PROTON.64.__PGPPHOSPHAB-MONOMER</th>
+      <th>maintenance_reaction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>NAD[c]</th>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>NADH[c]</th>
+      <td>-1</td>
+      <td>-1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PROTON[c]</th>
+      <td>-1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>GLUCONATE[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>NADP[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>R-3-hydroxymyristoyl-ACPs[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Adenylated-ThiS-Proteins[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>ThiS-CoASH-proteins[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Thi-S[c]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>FRU[p]</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>491 rows × 470 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Sd</span><span class="p">)</span>
+
+<span class="c1"># count number of times a value occurs in S_array</span>
+<span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">S_array</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([-8, -6, -5, -4, -3, -2, -1,  0,  1,  2,  3,  4,  5,  6,  8],
+       dtype=int8),
+ array([     2,      1,      3,      3,      5,     31,    950, 228660,
+          1059,     39,      9,      3,      1,      2,      2]))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># K_eq = np.log(keq)</span>
+<span class="c1"># K_eq_mod = K_eq[:, np.newaxis].T</span>
+<span class="c1"># vE = np.array([[90, 70, -30, 50], [100, 100, 30, 50], [110, 60, 75, 50]])</span>
+
+<span class="c1"># n_flux_set = vE.shape[0]</span>
+<span class="c1"># n_flux_set = 1</span>
+<span class="n">Sr</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># K_eq[vE &lt; 0] = 1/K_eq[vE &lt; 0]</span>
+
+<span class="n">lvE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vE</span><span class="p">))</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">vE</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">vE</span><span class="p">)]),</span> <span class="n">columns</span><span class="o">=</span><span class="n">Sd</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+             <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;$v_1$&quot;</span><span class="p">,</span> <span class="s2">&quot;sign 1&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1.5.1.20-RXN-5-METHYL-THF/NAD//METHYLENE-THF/NADH/PROTON.44. (reverse)</th>
+      <th>1.5.1.20-RXN-CPD-1302/NAD//CPD-12996/NADH/PROTON.36. (reverse)</th>
+      <th>1PFRUCTPHOSN-RXN</th>
+      <th>1TRANSKETO-RXN (reverse)</th>
+      <th>2-DEHYDROPANTOATE-REDUCT-RXN (reverse)</th>
+      <th>2-ISOPROPYLMALATESYN-RXN</th>
+      <th>2-OCTAPRENYL-6-METHOXYPHENOL-HYDROX-RXN</th>
+      <th>2-OCTAPRENYL-6-OHPHENOL-METHY-RXN</th>
+      <th>2-OCTAPRENYL-METHOXY-BENZOQ-METH-RXN</th>
+      <th>2-OCTAPRENYLPHENOL-HYDROX-RXN</th>
+      <th>...</th>
+      <th>ISOCHORSYN-RXN__MENF-CPLX</th>
+      <th>RXN-7609[CCO-CYTOSOL]-GMP/WATER//GUANOSINE/Pi.37.__G7742-MONOMER</th>
+      <th>RXN-9535__FABB-CPLX</th>
+      <th>RXN0-313__CPLX0-201 (reverse)</th>
+      <th>RXN0-384__H2NEOPTERINP3PYROPHOSPHOHYDRO-MONOMER</th>
+      <th>RXN0-5186__G7408-MONOMER</th>
+      <th>SERINE-O-ACETTRAN-RXN__CPLX0-237</th>
+      <th>SERINE-O-ACETTRAN-RXN__CYSSYNMULTI-CPLX</th>
+      <th>UNDECAPRENYL-DIPHOSPHATASE-RXN[CCO-CYTOSOL]-UNDECAPRENYL-DIPHOSPHATE/WATER//CPD-9646/Pi/PROTON.64.__PGPPHOSPHAB-MONOMER</th>
+      <th>maintenance_reaction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>$v_1$</th>
+      <td>3851.0</td>
+      <td>16095.0</td>
+      <td>1.238118e+06</td>
+      <td>7974.0</td>
+      <td>1131.0</td>
+      <td>56297.0</td>
+      <td>300.0</td>
+      <td>300.0</td>
+      <td>300.0</td>
+      <td>300.0</td>
+      <td>...</td>
+      <td>25.0</td>
+      <td>3.0</td>
+      <td>119.0</td>
+      <td>31.0</td>
+      <td>4.0</td>
+      <td>2979.0</td>
+      <td>17162.0</td>
+      <td>16186.0</td>
+      <td>143.0</td>
+      <td>3.058992e+06</td>
+    </tr>
+    <tr>
+      <th>sign 1</th>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.000000e+00</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.000000e+00</td>
+    </tr>
+  </tbody>
+</table>
+<p>2 rows × 470 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Use-the-class-based-method-to-solve-the-problem">
+<h1>Use the class based method to solve the problem<a class="headerlink" href="#Use-the-class-based-method-to-solve-the-problem" title="Permalink to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">convex_kinetics_new</span> <span class="kn">import</span> <span class="n">ConvexKineticsNew</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="o">=</span> <span class="n">ConvexKineticsNew</span><span class="p">()</span>
+<span class="n">y_f</span><span class="p">,</span> <span class="n">y_r</span><span class="p">,</span> <span class="n">y_s</span><span class="p">,</span> <span class="n">y_p</span><span class="p">,</span> <span class="n">y_i</span><span class="p">,</span> <span class="n">y_a</span><span class="p">,</span> <span class="n">cfwd</span><span class="p">,</span> <span class="n">crev</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">Km_s</span><span class="p">,</span> <span class="n">Km_p</span><span class="p">,</span> <span class="n">Km_i</span><span class="p">,</span> <span class="n">Km_a</span><span class="p">,</span> <span class="n">S_s</span><span class="p">,</span> <span class="n">S_p</span><span class="p">,</span> <span class="n">S_i</span><span class="p">,</span> <span class="n">S_a</span><span class="p">,</span> \
+            <span class="n">met_s_nz</span><span class="p">,</span> <span class="n">met_p_nz</span><span class="p">,</span> <span class="n">met_i_nz</span><span class="p">,</span> <span class="n">met_a_nz</span><span class="p">,</span> <span class="n">rxn_s_nz</span><span class="p">,</span> <span class="n">rxn_p_nz</span><span class="p">,</span> <span class="n">rxn_i_nz</span><span class="p">,</span> <span class="n">rxn_a_nz</span><span class="p">,</span> \
+            <span class="n">n_rxn</span><span class="p">,</span> <span class="n">n_met</span><span class="p">,</span> <span class="n">n_flux_set</span><span class="p">,</span> <span class="n">S_s_nz</span><span class="p">,</span> <span class="n">S_p_nz</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">set_up_variables</span><span class="p">(</span><span class="n">S_matrix</span><span class="o">=</span><span class="n">Sd</span><span class="p">,</span> <span class="n">R_matrix</span><span class="o">=</span><span class="n">Sr</span><span class="p">,</span> <span class="n">flow_data</span><span class="o">=</span><span class="n">vE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Number of metabolites: 491, number of reactions: 470, number of flux sets: 1
+Number of Km_s: 995, number of Km_p: 1115, number of Km_i: None, number of Km_a: None
+Number of concentrations: (491, 1), number of y_f: (1, 995), number of y_r: (1, 1115)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C_alpha</span><span class="p">,</span> <span class="n">C_beta</span><span class="p">,</span> <span class="n">d_alpha</span><span class="p">,</span> <span class="n">d_beta</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">construct_binding_matrix</span><span class="p">(</span><span class="n">n_rxn</span><span class="p">,</span> <span class="n">S_s</span><span class="p">,</span> <span class="n">S_p</span><span class="p">,</span> <span class="n">S_i</span><span class="p">,</span> <span class="n">S_a</span><span class="p">,</span> <span class="n">Sr</span><span class="p">,</span> <span class="n">met_s_nz</span><span class="p">,</span> <span class="n">met_p_nz</span><span class="p">,</span> <span class="n">met_i_nz</span><span class="p">,</span> <span class="n">met_a_nz</span><span class="p">,</span> <span class="n">rxn_s_nz</span><span class="p">,</span> <span class="n">rxn_p_nz</span><span class="p">,</span> <span class="n">rxn_i_nz</span><span class="p">,</span> <span class="n">rxn_a_nz</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Shape of C_alpha: (1828, 995), shape of C_beta: (2478, 1115)
+Shape of d_alpha: (1828,), shape of d_beta: (2478,)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LSE_expr</span><span class="p">,</span> <span class="n">denom_expr</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">construct_kinetic_objective</span><span class="p">(</span><span class="n">vE</span><span class="p">,</span> <span class="n">n_flux_set</span><span class="p">,</span> <span class="n">n_rxn</span><span class="p">,</span> <span class="n">C_alpha</span><span class="p">,</span> <span class="n">C_beta</span><span class="p">,</span> <span class="n">d_alpha</span><span class="p">,</span> <span class="n">d_beta</span><span class="p">,</span> <span class="n">S_s_nz</span><span class="p">,</span> <span class="n">S_p_nz</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">y_f</span><span class="p">,</span> <span class="n">y_r</span><span class="p">,</span> <span class="n">y_s</span><span class="p">,</span> <span class="n">y_p</span><span class="p">,</span> <span class="n">cfwd</span><span class="p">,</span> <span class="n">crev</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">create_objective_function</span><span class="p">(</span><span class="n">cfwd</span><span class="p">,</span> <span class="n">crev</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">Km_s</span><span class="p">,</span> <span class="n">Km_p</span><span class="p">,</span> <span class="n">Km_i</span><span class="p">,</span> <span class="n">Km_a</span><span class="p">,</span> <span class="n">y_s</span><span class="p">,</span> <span class="n">y_p</span><span class="p">,</span> <span class="n">LSE_expr</span><span class="p">,</span> <span class="n">denom_expr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">constr</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">set_parameter_bounds</span><span class="p">(</span><span class="n">cfwd</span><span class="p">,</span> <span class="n">crev</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">Km_s</span><span class="p">,</span> <span class="n">Km_p</span><span class="p">,</span> <span class="n">Km_i</span><span class="p">,</span> <span class="n">Km_a</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=-</span><span class="mi">12</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">problem</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">set_up_problem</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">constr</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/cyrus/.pyenv/versions/3.9.9/envs/viv/lib/python3.9/site-packages/cvxpy/problems/problem.py:155: UserWarning: Objective contains too many subexpressions. Consider vectorizing your CVXPY code to speed up compilation.
+  warnings.warn(&#34;Objective contains too many subexpressions. &#34;
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solution</span> <span class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solution</span><span class="o">.</span><span class="n">value</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+51.982381865698734
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reconstructed_vE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">vE</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_flux_set</span><span class="p">):</span>
+    <span class="n">sat_expr</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fwd_sat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_rxn</span><span class="p">)</span>
+    <span class="n">back_sat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_rxn</span><span class="p">)</span>
+    <span class="n">sat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_rxn</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_rxn</span><span class="p">):</span>
+        <span class="c1"># sum terms are separate in logsumexp. one per saturation term (row in C_alpha, C_beta)</span>
+        <span class="n">n_term_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">d_alpha</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">n_term_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">d_beta</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">n_term</span> <span class="o">=</span> <span class="n">n_term_s</span> <span class="o">+</span> <span class="n">n_term_p</span>
+
+
+        <span class="n">Km_s_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">S_s_nz</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">S_s_idx</span> <span class="o">=</span> <span class="n">S_s_nz</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">S_s_nz</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="c1"># negate -1 entries</span>
+
+        <span class="n">Km_p_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">S_p_nz</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">S_p_idx</span> <span class="o">=</span> <span class="n">S_p_nz</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">S_p_nz</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span>
+
+        <span class="c1">#S_s_idx = S_s_nz[0, S_s_nz[1, :] == i]</span>
+
+        <span class="n">sat_expr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>           <span class="p">[</span> <span class="p">(</span><span class="n">C_alpha</span> <span class="o">@</span> <span class="n">y_f</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())[</span><span class="n">d_alpha</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="p">,</span>
+                                     <span class="p">(</span><span class="n">C_beta</span> <span class="o">@</span> <span class="n">y_r</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())[</span><span class="n">d_beta</span> <span class="o">==</span> <span class="n">i</span><span class="p">],</span>
+                                     <span class="mi">0</span><span class="p">,</span>
+                                     <span class="c1">#-1*np.ones(n_lse_terms - n_term + 1)</span>
+                                   <span class="p">]</span>
+                       <span class="p">)</span>
+        <span class="n">fwd_sat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">S</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">S_s_idx</span><span class="p">]</span> <span class="o">@</span> <span class="n">y_s</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">Km_s_idx</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span> <span class="c1"># + cfwd.value[i]</span>
+        <span class="n">back_sat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">S_p_idx</span><span class="p">]</span> <span class="o">@</span> <span class="n">y_p</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">Km_p_idx</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span> <span class="c1"># + cfwd.value[i]</span>
+
+
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rxn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sat_expr</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">rxn</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">term</span><span class="p">))</span>
+
+        <span class="n">sat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="n">reconstr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">cfwd</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">*</span> <span class="n">fwd_sat</span><span class="o">/</span><span class="n">sat</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">crev</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">*</span> <span class="n">back_sat</span><span class="o">/</span><span class="n">sat</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">reconstr</span><span class="p">)</span>
+    <span class="n">reconstructed_vE</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">reconstr</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[3.85100015e+03 1.60950006e+04 1.23811803e+06 7.97400020e+03
+ 1.13100004e+03 5.62970026e+04 3.00000022e+02 3.00000010e+02
+ 3.00000010e+02 3.00000022e+02 1.65050006e+04 5.05770013e+04
+ 1.06000004e+02 4.73910016e+04 4.73910018e+04 1.00000012e+01
+ 2.48858989e+05 2.08335702e+06 5.06580013e+04 1.13100004e+03
+ 5.05840010e+04 5.05840010e+04 3.00000008e+02 4.00000010e+00
+ 1.96800005e+03 3.07090008e+04 2.08340601e+06 3.00000008e+02
+ 7.77200011e+03 1.65050002e+04 7.51950019e+04 8.31240021e+04
+ 5.68000015e+02 1.11928004e+05 9.02660023e+04 3.92070015e+04
+ 3.92070015e+04 1.00000002e+01 4.64800012e+04 4.64580012e+04
+ 4.64800012e+04 7.00000014e+00 3.33480011e+04 9.90000027e+01
+ 1.07100003e+03 2.82300007e+03 2.77348006e+05 3.62220022e+04
+ 3.33480011e+04 5.30000018e+01 4.39090008e+04 5.71510015e+04
+ 4.39580021e+04 8.14150021e+04 4.79000007e+03 3.62220007e+04
+ 6.46800032e+03 3.62390007e+04 3.63320022e+04 2.95130018e+04
+ 1.28030981e+05 4.27027986e+05 6.73230031e+04 4.39840011e+04
+ 4.24060014e+04 1.13100003e+03 1.32420003e+04 4.18174513e+06
+ 3.92070010e+04 5.62250014e+04 5.45000014e+04 1.48600003e+03
+ 3.06290012e+04 9.07680023e+04 5.05770010e+04 3.27000006e+02
+ 4.82742999e+05 3.88600010e+03 1.90710006e+04 1.97100003e+03
+ 1.00000003e+01 2.00000005e+00 1.00000003e+00 2.13100004e+03
+ 1.10700004e+03 1.00000006e+01 2.35000008e+02 3.00000010e+02
+ 4.40680011e+04 4.80680007e+04 4.81260016e+04 9.90000061e+01
+ 9.90000025e+01 4.20930011e+04 4.10590010e+04 1.11928002e+05
+ 3.92070008e+04 5.40000018e+01 2.58000007e+02 1.06000005e+02
+ 2.45600006e+03 2.65600007e+03 1.96800007e+03 4.73910018e+04
+ 4.74890018e+04 5.40000033e+01 4.90000023e+01 4.90000017e+01
+ 9.10000035e+01 4.39580051e+04 4.41900011e+03 1.71990006e+05
+ 2.30751006e+06 4.39580015e+04 6.51530017e+04 2.50000008e+01
+ 7.51950026e+04 3.51110013e+04 9.40100036e+03 1.71170004e+04
+ 1.22976008e+05 7.68200047e+03 7.68200048e+03 7.08489065e+05
+ 2.55650006e+04 4.00000006e+03 8.64000040e+02 2.55650012e+04
+ 3.90460015e+04 1.48600005e+03 9.90000046e+01 9.90000025e+01
+ 1.72260006e+04 1.07666004e+05 4.39580027e+04 2.70000007e+01
+ 2.05220013e+04 4.41900011e+03 8.64000013e+02 9.90000034e+01
+ 1.29000006e+02 2.92050007e+04 9.90000019e+01 9.90000034e+01
+ 9.90000033e+01 9.90000025e+01 1.32420003e+04 1.32420003e+04
+ 1.32420003e+04 1.32420004e+04 1.60950004e+04 3.85100010e+03
+ 1.91970007e+04 1.90710005e+04 6.46700022e+03 1.32420003e+04
+ 2.05220010e+04 5.71510011e+04 2.00000005e+00 5.35478014e+05
+ 3.00000010e+00 2.35000006e+02 6.25740012e+04 4.19041992e+05
+ 4.29720020e+04 3.88600010e+03 3.88600015e+03 1.94300007e+03
+ 1.94300007e+03 1.94300007e+03 1.94300007e+03 2.58000013e+02
+ 1.05500005e+03 1.01109003e+05 1.01109003e+05 3.00000005e+00
+ 1.63800004e+03 4.64800022e+04 4.64800016e+04 4.00000014e+03
+ 1.38000005e+02 1.40800009e+03 2.22374497e+06 1.64630006e+04
+ 1.06000003e+02 1.40800005e+03 6.88000023e+02 1.90710006e+04
+ 1.06000005e+02 1.06000002e+02 3.00000014e+02 1.08000003e+02
+ 3.67370012e+04 9.71600025e+03 3.81510010e+04 3.81510010e+04
+ 1.10700003e+03 1.10700007e+03 9.90000025e+01 1.10700004e+03
+ 1.13100007e+03 1.10700004e+03 4.90000024e+01 3.54713009e+05
+ 2.09423997e+05 1.22064002e+05 2.23277008e+05 8.32400021e+03
+ 2.30750203e+06 4.00000010e+03 8.32400028e+03 2.23050006e+04
+ 2.23050008e+04 4.45120007e+04 4.90000013e+01 4.32000012e+02
+ 6.46700009e+03 2.35520008e+04 1.97360007e+04 1.32420002e+04
+ 5.40000014e+01 4.39580021e+04 1.06138004e+05 4.80000016e+01
+ 6.46700017e+03 2.22527006e+05 4.90000013e+01 4.90000064e+01
+ 4.90000013e+01 2.55650010e+04 1.02775902e+06 1.41300005e+03
+ 1.40800007e+03 6.16180016e+04 6.16180016e+04 1.12400002e+05
+ 1.29000003e+02 1.19000004e+02 1.29000005e+02 1.29000005e+02
+ 1.29000003e+02 1.07100002e+03 4.25950006e+04 2.35050006e+04
+ 2.01000008e+02 4.90000067e+01 1.00000003e+01 1.00000005e+01
+ 9.07850024e+04 4.82580012e+04 1.00000003e+01 4.90000023e+01
+ 5.62970019e+04 5.62970008e+04 4.90000017e+01 7.91430049e+04
+ 5.40000018e+01 4.81260023e+04 1.11100003e+03 1.00000003e+00
+ 4.81759984e+05 1.48790009e+04 1.07100002e+03 4.73910023e+04
+ 1.07100003e+03 3.88600006e+03 1.32420006e+04 2.75500011e+03
+ 1.94300007e+03 5.40000014e+01 1.28871748e+06 2.01000009e+02
+ 8.08070021e+04 1.32360006e+04 4.06000010e+02 4.01300010e+03
+ 1.06000002e+02 1.06000004e+02 1.41300005e+03 7.40700025e+04
+ 8.90000013e+01 5.40000025e+01 1.81000003e+02 1.87800005e+03
+ 6.86000017e+02 8.31240021e+04 4.73910009e+04 7.50000011e+02
+ 3.00000008e+00 1.45500003e+03 7.77200011e+03 7.77200026e+03
+ 7.77200030e+03 7.77200020e+03 1.00000003e+00 1.94300007e+03
+ 2.22527006e+05 1.94300007e+03 1.94300007e+03 1.94300007e+03
+ 1.94300007e+03 1.94300007e+03 1.94300007e+03 1.94300007e+03
+ 1.94300007e+03 1.94300007e+03 2.10000005e+01 1.69011004e+05
+ 3.00000008e+00 9.74624025e+05 7.50000029e+02 1.07100004e+03
+ 1.18000003e+02 7.50000019e+02 4.80000012e+01 4.39090027e+04
+ 4.39090006e+04 4.41900021e+03 2.01000003e+02 2.93400014e+03
+ 4.39090027e+04 1.63800004e+03 5.05840019e+04 5.05770017e+04
+ 5.40000014e+01 1.63800006e+03 2.55650007e+04 9.84119819e+04
+ 4.81260012e+04 3.12468985e+05 4.81260012e+04 3.33510013e+04
+ 3.33480016e+04 4.81260018e+04 1.94300007e+03 4.90000013e+01
+ 3.92070007e+04 7.90780017e+04 2.65600007e+03 4.97000007e+02
+ 1.77622005e+05 2.28700003e+03 7.00000011e+00 8.50000013e+01
+ 1.73681573e+07 5.14570013e+04 1.00000003e+03 1.06738109e+06
+ 4.00000006e+03 1.00000002e+01 1.63800002e+03 1.28969595e+06
+ 1.37200002e+03 4.90000007e+01 1.89327296e+06 4.90000007e+01
+ 3.33510009e+04 1.17722101e+06 6.46700022e+03 1.97360005e+04
+ 4.00000025e+03 4.00000025e+03 4.00000025e+03 4.00000025e+03
+ 3.88600010e+03 1.94300003e+03 6.27210016e+04 4.00000010e+03
+ 4.00000015e+03 3.01000014e+02 3.85700013e+03 1.96800005e+03
+ 5.40000013e+01 1.08000002e+02 3.51100007e+04 8.64000040e+02
+ 2.00000006e+03 1.00000002e+03 3.33480016e+04 7.29160034e+04
+ 7.29160014e+04 6.12580012e+04 7.29160014e+04 7.29160028e+04
+ 7.29160028e+04 6.12580023e+04 7.29160028e+04 7.29160034e+04
+ 4.96859030e+05 7.29160028e+04 7.29160028e+04 1.00000003e+01
+ 1.94300005e+03 4.96841013e+05 1.94300005e+03 7.15000018e+02
+ 4.73910034e+04 4.74400030e+04 1.00000005e+01 1.00000004e+01
+ 1.00000002e+01 1.00000004e+01 1.00000005e+01 1.00000004e+01
+ 1.00000002e+01 1.00000004e+01 1.00000003e+01 3.06290008e+04
+ 7.29160034e+04 7.29160028e+04 7.29160014e+04 7.29160034e+04
+ 7.29160034e+04 7.29160028e+04 7.29160014e+04 7.08540033e+04
+ 7.09730027e+04 6.32010012e+04 6.12580029e+04 7.29160014e+04
+ 7.29160028e+04 7.29160028e+04 7.29160028e+04 6.32010024e+04
+ 6.12580024e+04 4.90000013e+01 4.90000031e+01 4.90000019e+01
+ 4.96859013e+05 3.06290008e+04 1.41010802e+06 6.88000023e+02
+ 1.80000008e+01 1.20000006e+01 8.00000038e+00 2.70000009e+01
+ 4.90000023e+01 3.33480013e+04 1.41010802e+06 3.88600013e+03
+ 3.88600010e+03 2.63900007e+03 2.18630006e+04 2.31800003e+03
+ 3.81000024e+02 2.33390006e+04 2.45000005e+01 4.32880006e+04
+ 5.05840019e+04 9.42000047e+02 3.11200015e+03 3.88600006e+03
+ 1.29836002e+05 1.08777601e+06 1.12490003e+04 3.29400008e+03
+ 2.57000007e+03 4.00000010e+00 1.61000004e+02 3.16000005e+02
+ 2.50000004e+01 3.00000008e+00 1.19000006e+02 3.10000007e+01
+ 4.00000014e+00 2.97900008e+03 1.71620004e+04 1.61860004e+04
+ 1.43000005e+02 3.05899204e+06]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_vE</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">vE</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">Sd</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Flux set 1&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">ignore_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df_vE</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Actual flux&quot;</span>
+<span class="n">df_recon</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">reconstructed_vE</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">Sd</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Flux set 1&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">ignore_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df_recon</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Reconstructed flux&quot;</span>
+
+<span class="n">df_reconstr_comp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_vE</span><span class="p">,</span> <span class="n">df_recon</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># df_reconstr_comp</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sort df_reconstr_comp by value</span>
+<span class="n">df_reconstr_comp</span> <span class="o">=</span> <span class="n">df_reconstr_comp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">catplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_reconstr_comp</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># change x axis to log scale</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+
+<span class="c1"># limit length of y axis labels to 20 characters</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">get_text</span><span class="p">()[:</span><span class="mi">20</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">()])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[Text(0, 0, &#39;TRANS-RXN-145&#39;),
+ Text(0, 1, &#39;ATPSYN-RXN (reverse)&#39;),
+ Text(0, 2, &#39;maintenance_reaction&#39;),
+ Text(0, 3, &#39;GAPOXNPHOSPHN-RXN&#39;),
+ Text(0, 4, &#39;PHOSGLYPHOS-RXN (rev&#39;),
+ Text(0, 5, &#39;NADH-DEHYDROG-A-RXN-&#39;),
+ Text(0, 6, &#39;3PGAREARR-RXN (rever&#39;),
+ Text(0, 7, &#39;2PGADEHYDRAT-RXN&#39;),
+ Text(0, 8, &#39;TRANS-RXN0-545[CCO-P&#39;),
+ Text(0, 9, &#39;TRANS-RXN0-582-FRU/P&#39;),
+ Text(0, 10, &#39;RXN0-6717&#39;),
+ Text(0, 11, &#39;TRANS-RXN0-474&#39;),
+ Text(0, 12, &#39;RXN-21817-CPD-9956/P&#39;),
+ Text(0, 13, &#39;1PFRUCTPHOSN-RXN&#39;),
+ Text(0, 14, &#39;TRIOSEPISOMERIZATION&#39;),
+ Text(0, 15, &#39;F16ALDOLASE-RXN__FRU&#39;),
+ Text(0, 16, &#39;TRANS-RXN0-277 (reve&#39;),
+ Text(0, 17, &#39;PYRUVDEH-RXN&#39;),
+ Text(0, 18, &#39;RXN0-5224 (reverse)&#39;),
+ Text(0, 19, &#39;GLUTDEHYD-RXN (rever&#39;),
+ Text(0, 20, &#39;INORGPYROPHOSPHAT-RX&#39;),
+ Text(0, 21, &#39;BIOTIN-CARBOXYL-RXN&#39;),
+ Text(0, 22, &#39;RXN0-5055&#39;),
+ Text(0, 23, &#39;MALONYL-COA-ACP-TRAN&#39;),
+ Text(0, 24, &#39;CITSYN-RXN&#39;),
+ Text(0, 25, &#39;RXN-14047&#39;),
+ Text(0, 26, &#39;ASPARTASE-RXN (rever&#39;),
+ Text(0, 27, &#39;ISOCITDEH-RXN&#39;),
+ Text(0, 28, &#39;PEPCARBOX-RXN (rever&#39;),
+ Text(0, 29, &#39;SUCCINATE-DEHYDROGEN&#39;),
+ Text(0, 30, &#39;ADENYL-KIN-RXN&#39;),
+ Text(0, 31, &#39;2OXOGLUTARATEDEH-RXN&#39;),
+ Text(0, 32, &#39;PGLYCDEHYDROG-RXN&#39;),
+ Text(0, 33, &#39;PSERTRANSAM-RXN (rev&#39;),
+ Text(0, 34, &#39;RXN0-5114[CCO-CYTOSO&#39;),
+ Text(0, 35, &#39;PEPDEPHOS-RXN (rever&#39;),
+ Text(0, 36, &#39;TRANS-RXN-114&#39;),
+ Text(0, 37, &#39;FRUCTOKINASE-RXN&#39;),
+ Text(0, 38, &#39;RXN0-5186&#39;),
+ Text(0, 39, &#39;F16ALDOLASE-RXN__FRU&#39;),
+ Text(0, 40, &#39;ASPAMINOTRANS-RXN&#39;),
+ Text(0, 41, &#39;GLUTAMINESYN-RXN&#39;),
+ Text(0, 42, &#39;PGLUCISOM-RXN-GLC-6-&#39;),
+ Text(0, 43, &#39;RIB5PISOM-RXN (rever&#39;),
+ Text(0, 44, &#39;ACETOLACTREDUCTOISOM&#39;),
+ Text(0, 45, &#39;DIHYDROXYISOVALDEHYD&#39;),
+ Text(0, 46, &#39;GLYOHMETRANS-RXN-SER&#39;),
+ Text(0, 47, &#39;PRPPSYN-RXN&#39;),
+ Text(0, 48, &#39;METHYLENETHFDEHYDROG&#39;),
+ Text(0, 49, &#39;METHENYLTHFCYCLOHYDR&#39;),
+ Text(0, 50, &#39;SUCCCOASYN-RXN (reve&#39;),
+ Text(0, 51, &#39;RXN-11832&#39;),
+ Text(0, 52, &#39;CDPKIN-RXN&#39;),
+ Text(0, 53, &#39;ACETOLACTSYN-RXN&#39;),
+ Text(0, 54, &#39;RXN0-268 (reverse)&#39;),
+ Text(0, 55, &#39;ACECOATRANS-RXN-PROP&#39;),
+ Text(0, 56, &#39;ALANINE-AMINOTRANSFE&#39;),
+ Text(0, 57, &#39;RXN-6161&#39;),
+ Text(0, 58, &#39;RXN-13202&#39;),
+ Text(0, 59, &#39;THREONINE-ALDOLASE-R&#39;),
+ Text(0, 60, &#39;GLU6PDEHYDROG-RXN-GL&#39;),
+ Text(0, 61, &#39;6PGLUCONOLACT-RXN&#39;),
+ Text(0, 62, &#39;RXN-9952&#39;),
+ Text(0, 63, &#39;2.3.1.180-RXN&#39;),
+ Text(0, 64, &#39;RXN-9531&#39;),
+ Text(0, 65, &#39;RXN-9523&#39;),
+ Text(0, 66, &#39;RXN-9516&#39;),
+ Text(0, 67, &#39;3-OXOACYL-ACP-SYNTH-&#39;),
+ Text(0, 68, &#39;RXN-9660 (reverse)&#39;),
+ Text(0, 69, &#39;ENOYL-ACP-REDUCT-NAD&#39;),
+ Text(0, 70, &#39;ENOYL-ACP-REDUCT-NAD&#39;),
+ Text(0, 71, &#39;RXN-9532 (reverse)&#39;),
+ Text(0, 72, &#39;3-OXOACYL-ACP-REDUCT&#39;),
+ Text(0, 73, &#39;3-OXOACYL-ACP-REDUCT&#39;),
+ Text(0, 74, &#39;RXN-9518 (reverse)&#39;),
+ Text(0, 75, &#39;RXN-9661 (reverse)&#39;),
+ Text(0, 76, &#39;3-OXOACYL-ACP-REDUCT&#39;),
+ Text(0, 77, &#39;RXN-9658 (reverse)&#39;),
+ Text(0, 78, &#39;3-HYDROXYDECANOYL-AC&#39;),
+ Text(0, 79, &#39;RXN-9533&#39;),
+ Text(0, 80, &#39;RXN-9655&#39;),
+ Text(0, 81, &#39;RXN-9520&#39;),
+ Text(0, 82, &#39;3-HYDROXYDECANOYL-AC&#39;),
+ Text(0, 83, &#39;RXN-9536 (reverse)&#39;),
+ Text(0, 84, &#39;RXN-9535&#39;),
+ Text(0, 85, &#39;ASPARTATE-SEMIALDEHY&#39;),
+ Text(0, 86, &#39;GDPKIN-RXN&#39;),
+ Text(0, 87, &#39;RXN-9662 (reverse)&#39;),
+ Text(0, 88, &#39;RXN-9537&#39;),
+ Text(0, 89, &#39;UDPKIN-RXN&#39;),
+ Text(0, 90, &#39;ISOCIT-CLEAV-RXN&#39;),
+ Text(0, 91, &#39;R15-RXN-MET/2-KETOGL&#39;),
+ Text(0, 92, &#39;R15-RXN-MET/GLYOX//C&#39;),
+ Text(0, 93, &#39;RXN-9539&#39;),
+ Text(0, 94, &#39;RXN-9663 (reverse)&#39;),
+ Text(0, 95, &#39;3-OXOACYL-ACP-REDUCT&#39;),
+ Text(0, 96, &#39;3-HYDROXYDECANOYL-AC&#39;),
+ Text(0, 97, &#39;AICARTRANSFORM-RXN-1&#39;),
+ Text(0, 98, &#39;IMPCYCLOHYDROLASE-RX&#39;),
+ Text(0, 99, &#39;2-ISOPROPYLMALATESYN&#39;),
+ Text(0, 100, &#39;RXN-13158&#39;),
+ Text(0, 101, &#39;RXN-13163 (reverse)&#39;),
+ Text(0, 102, &#39;BRANCHED-CHAINAMINOT&#39;),
+ Text(0, 103, &#39;BRANCHED-CHAINAMINOT&#39;),
+ Text(0, 104, &#39;TRANS-RXN-3&#39;),
+ Text(0, 105, &#39;2TRANSKETO-RXN (reve&#39;),
+ Text(0, 106, &#39;DAHPSYN-RXN__AROG-CP&#39;),
+ Text(0, 107, &#39;SHIKIMATE-5-DEHYDROG&#39;),
+ Text(0, 108, &#39;3-DEHYDROQUINATE-SYN&#39;),
+ Text(0, 109, &#39;3-DEHYDROQUINATE-DEH&#39;),
+ Text(0, 110, &#39;SHIKIMATE-KINASE-RXN&#39;),
+ Text(0, 111, &#39;2.5.1.19-RXN&#39;),
+ Text(0, 112, &#39;CHORISMATE-SYNTHASE-&#39;),
+ Text(0, 113, &#39;RXN-12002&#39;),
+ Text(0, 114, &#39;RXN-14014-DELTA1-PIP&#39;),
+ Text(0, 115, &#39;TETHYDPICSUCC-RXN&#39;),
+ Text(0, 116, &#39;DIHYDRODIPICSYN-RXN&#39;),
+ Text(0, 117, &#39;SUCCDIAMINOPIMDESUCC&#39;),
+ Text(0, 118, &#39;SUCCINYLDIAMINOPIMTR&#39;),
+ Text(0, 119, &#39;DIAMINOPIMEPIM-RXN&#39;),
+ Text(0, 120, &#39;DXS-RXN&#39;),
+ Text(0, 121, &#39;PYRUFLAVREDUCT-RXN&#39;),
+ Text(0, 122, &#39;PYFLAVOXRE-RXN&#39;),
+ Text(0, 123, &#39;RXN-15878 (reverse)&#39;),
+ Text(0, 124, &#39;DXPREDISOM-RXN (reve&#39;),
+ Text(0, 125, &#39;2.7.7.60-RXN&#39;),
+ Text(0, 126, &#39;2.7.1.148-RXN&#39;),
+ Text(0, 127, &#39;RXN0-302&#39;),
+ Text(0, 128, &#39;N-ACETYLGLUTPREDUCT-&#39;),
+ Text(0, 129, &#39;N-ACETYLTRANSFER-RXN&#39;),
+ Text(0, 130, &#39;ACETYLORNTRANSAM-RXN&#39;),
+ Text(0, 131, &#39;ACETYLGLUTKIN-RXN&#39;),
+ Text(0, 132, &#39;ACETYLORNDEACET-RXN&#39;),
+ Text(0, 133, &#39;PHOSPHOGLUCMUT-RXN-G&#39;),
+ Text(0, 134, &#39;DIAMINOPIMDECARB-RXN&#39;),
+ Text(0, 135, &#39;ASPARTATEKIN-RXN&#39;),
+ Text(0, 136, &#39;FGAMSYN-RXN&#39;),
+ Text(0, 137, &#39;GLYRIBONUCSYN-RXN&#39;),
+ Text(0, 138, &#39;AIRS-RXN&#39;),
+ Text(0, 139, &#39;PRPPAMIDOTRANS-RXN (&#39;),
+ Text(0, 140, &#39;GART-RXN-10-FORMYL-T&#39;),
+ Text(0, 141, &#39;RXN0-742&#39;),
+ Text(0, 142, &#39;SAICARSYN-RXN&#39;),
+ Text(0, 143, &#39;AICARSYN-RXN&#39;),
+ Text(0, 144, &#39;RXN0-743&#39;),
+ Text(0, 145, &#39;CHORISMATEMUT-RXN__C&#39;),
+ Text(0, 146, &#39;ISPH2-RXN (reverse)&#39;),
+ Text(0, 147, &#39;RIBULP3EPIM-RXN (rev&#39;),
+ Text(0, 148, &#39;ASPCARBTRANS-RXN&#39;),
+ Text(0, 149, &#39;DIHYDROOROT-RXN (rev&#39;),
+ Text(0, 150, &#39;DIHYDROOROTATE-DEHYD&#39;),
+ Text(0, 151, &#39;ACETOOHBUTREDUCTOISO&#39;),
+ Text(0, 152, &#39;ACETOOHBUTSYN-RXN&#39;),
+ Text(0, 153, &#39;BRANCHED-CHAINAMINOT&#39;),
+ Text(0, 154, &#39;DIHYDROXYMETVALDEHYD&#39;),
+ Text(0, 155, &#39;THREDEHYD-RXN&#39;),
+ Text(0, 156, &#39;GLYC3PDEHYDROGBIOSYN&#39;),
+ Text(0, 157, &#39;OROTPDECARB-RXN&#39;),
+ Text(0, 158, &#39;OROPRIBTRANS-RXN (re&#39;),
+ Text(0, 159, &#39;ORNCARBAMTRANSFER-RX&#39;),
+ Text(0, 160, &#39;ARGSUCCINSYN-RXN&#39;),
+ Text(0, 161, &#39;ARGSUCCINLYA-RXN&#39;),
+ Text(0, 162, &#39;ADENYLOSUCCINATE-SYN&#39;),
+ Text(0, 163, &#39;AMPSYN-RXN&#39;),
+ Text(0, 164, &#39;GLUC1PADENYLTRANS-RX&#39;),
+ Text(0, 165, &#39;glycogen-monomer-ext&#39;),
+ Text(0, 166, &#39;SULFATE-ADENYLYLTRAN&#39;),
+ Text(0, 167, &#39;TRANS-RXN0-586&#39;),
+ Text(0, 168, &#39;1.8.4.8-RXN (reverse&#39;),
+ Text(0, 169, &#39;SULFITE-REDUCT-RXN (&#39;),
+ Text(0, 170, &#39;THIOREDOXIN-REDUCT-N&#39;),
+ Text(0, 171, &#39;ACSERLY-RXN&#39;),
+ Text(0, 172, &#39;ADENYLYLSULFKIN-RXN&#39;),
+ Text(0, 173, &#39;325-BISPHOSPHATE-NUC&#39;),
+ Text(0, 174, &#39;CDPDIGLYSYN-RXN-CTP/&#39;),
+ Text(0, 175, &#39;RXN0-6705&#39;),
+ Text(0, 176, &#39;RXN-17018&#39;),
+ Text(0, 177, &#39;ASNSYNA-RXN&#39;),
+ Text(0, 178, &#39;GUANYL-KIN-RXN&#39;),
+ Text(0, 179, &#39;GLUTSEMIALDEHYDROG-R&#39;),
+ Text(0, 180, &#39;PYRROLINECARBREDUCT-&#39;),
+ Text(0, 181, &#39;SPONTPRO-RXN (revers&#39;),
+ Text(0, 182, &#39;GLUTKIN-RXN&#39;),
+ Text(0, 183, &#39;PREPHENATEDEHYDRAT-R&#39;),
+ Text(0, 184, &#39;RXN-10814 (reverse)&#39;),
+ Text(0, 185, &#39;ASPARTATEKIN-RXN__AS&#39;),
+ Text(0, 186, &#39;PHOSPHASERSYN-RXN-CP&#39;),
+ Text(0, 187, &#39;PHOSPHASERDECARB-RXN&#39;),
+ Text(0, 188, &#39;ACETOLACTSYN-RXN__AC&#39;),
+ Text(0, 189, &#39;GMP-SYN-NH3-RXN&#39;),
+ Text(0, 190, &#39;IMP-DEHYDROG-RXN&#39;),
+ Text(0, 191, &#39;PREPHENATEDEHYDROG-R&#39;),
+ Text(0, 192, &#39;TYROSINE-AMINOTRANSF&#39;),
+ Text(0, 193, &#39;HOMOSERDEHYDROG-RXN-&#39;),
+ Text(0, 194, &#39;O-SUCCHOMOSERLYASE-R&#39;),
+ Text(0, 195, &#39;CYSTATHIONINE-BETA-L&#39;),
+ Text(0, 196, &#39;HOMSUCTRAN-RXN&#39;),
+ Text(0, 197, &#39;GLYOHMETRANS-RXN-SER&#39;),
+ Text(0, 198, &#39;SERINE-O-ACETTRAN-RX&#39;),
+ Text(0, 199, &#39;GLUCOSAMINE-6-P-DEAM&#39;),
+ Text(0, 200, &#39;2.3.1.157-RXN&#39;),
+ Text(0, 201, &#39;5.4.2.10-RXN-CPD-134&#39;),
+ Text(0, 202, &#39;NAG1P-URIDYLTRANS-RX&#39;),
+ Text(0, 203, &#39;SERINE-O-ACETTRAN-RX&#39;),
+ Text(0, 204, &#39;1.5.1.20-RXN-CPD-130&#39;),
+ Text(0, 205, &#39;HOMOCYSMET-RXN&#39;),
+ Text(0, 206, &#39;RXN-14325&#39;),
+ Text(0, 207, &#39;RXN-17900&#39;),
+ Text(0, 208, &#39;HISTPRATPHYD-RXN&#39;),
+ Text(0, 209, &#39;ATPPHOSPHORIBOSYLTRA&#39;),
+ Text(0, 210, &#39;HISTAMINOTRANS-RXN (&#39;),
+ Text(0, 211, &#39;HISTIDPHOS-RXN[CCO-C&#39;),
+ Text(0, 212, &#39;HISTCYCLOHYD-RXN&#39;),
+ Text(0, 213, &#39;IMIDPHOSDEHYD-RXN&#39;),
+ Text(0, 214, &#39;PRIBFAICARPISOM-RXN&#39;),
+ Text(0, 215, &#39;RXN-8001&#39;),
+ Text(0, 216, &#39;F16BDEPHOS-RXN[CCO-C&#39;),
+ Text(0, 217, &#39;ORNDECARBOX-RXN&#39;),
+ Text(0, 218, &#39;GLUC1PURIDYLTRANS-RX&#39;),
+ Text(0, 219, &#39;PHOSPHAGLYPSYN-RXN-C&#39;),
+ Text(0, 220, &#39;PGPPHOSPHA-RXN-CPD-1&#39;),
+ Text(0, 221, &#39;1TRANSKETO-RXN (reve&#39;),
+ Text(0, 222, &#39;RXN0-4342&#39;),
+ Text(0, 223, &#39;RXN0-4341&#39;),
+ Text(0, 224, &#39;RXN0-4361&#39;),
+ Text(0, 225, &#39;5.1.3.20-RXN&#39;),
+ Text(0, 226, &#39;RXN0-4301&#39;),
+ Text(0, 227, &#39;GLUTCYSLIG-RXN&#39;),
+ Text(0, 228, &#39;GLUTATHIONE-SYN-RXN&#39;),
+ Text(0, 229, &#39;ANTHRANSYN-RXN&#39;),
+ Text(0, 230, &#39;IGPSYN-RXN&#39;),
+ Text(0, 231, &#39;TRYPSYN-RXN&#39;),
+ Text(0, 232, &#39;PRTRANS-RXN (reverse&#39;),
+ Text(0, 233, &#39;PRAISOM-RXN&#39;),
+ Text(0, 234, &#39;ALARACECAT-RXN&#39;),
+ Text(0, 235, &#39;RXN0-884 (reverse)&#39;),
+ Text(0, 236, &#39;FPPSYN-RXN&#39;),
+ Text(0, 237, &#39;GPPSYN-RXN&#39;),
+ Text(0, 238, &#39;RXN-8999&#39;),
+ Text(0, 239, &#39;UDP-NACMURALA-GLU-LI&#39;),
+ Text(0, 240, &#39;UDP-NACMURALGLDAPAAL&#39;),
+ Text(0, 241, &#39;UDP-NACMURALGLDAPLIG&#39;),
+ Text(0, 242, &#39;UDP-NACMUR-ALA-LIG-R&#39;),
+ Text(0, 243, &#39;UDPNACETYLMURAMATEDE&#39;),
+ Text(0, 244, &#39;NACGLCTRANS-RXN&#39;),
+ Text(0, 245, &#39;PHOSNACMURPENTATRANS&#39;),
+ Text(0, 246, &#39;UDPNACETYLGLUCOSAMEN&#39;),
+ Text(0, 247, &#39;TRANS-RXN0-286&#39;),
+ Text(0, 248, &#39;GLUTRACE-RXN&#39;),
+ Text(0, 249, &#39;KDO-8PSYNTH-RXN&#39;),
+ Text(0, 250, &#39;UDPHYDROXYMYRGLUCOSA&#39;),
+ Text(0, 251, &#39;CPM-KDOSYNTH-RXN&#39;),
+ Text(0, 252, &#39;UDPNACETYLGLUCOSAMAC&#39;),
+ Text(0, 253, &#39;UDPACYLGLCNACDEACETY&#39;),
+ Text(0, 254, &#39;KDO-8PPHOSPHAT-RXN&#39;),
+ Text(0, 255, &#39;DARAB5PISOM-RXN__CPL&#39;),
+ Text(0, 256, &#39;RXN-16804&#39;),
+ Text(0, 257, &#39;UNDECAPRENYL-DIPHOSP&#39;),
+ Text(0, 258, &#39;1.5.1.20-RXN-5-METHY&#39;),
+ Text(0, 259, &#39;HOMOCYSMETB12-RXN-HO&#39;),
+ Text(0, 260, &#39;F16BDEPHOS-RXN[CCO-C&#39;),
+ Text(0, 261, &#39;DALADALALIG-RXN__DAL&#39;),
+ Text(0, 262, &#39;RXN0-5186__G7408-MON&#39;),
+ Text(0, 263, &#39;S-ADENMETSYN-RXN&#39;),
+ Text(0, 264, &#39;ADENPRIBOSYLTRAN-RXN&#39;),
+ Text(0, 265, &#39;RXN-19329 (reverse)&#39;),
+ Text(0, 266, &#39;THYMIDYLATESYN-RXN-M&#39;),
+ Text(0, 267, &#39;DTMPKI-RXN&#39;),
+ Text(0, 268, &#39;325-BISPHOSPHATE-NUC&#39;),
+ Text(0, 269, &#39;F16BDEPHOS-RXN[CCO-C&#39;),
+ Text(0, 270, &#39;DTDPKIN-RXN&#39;),
+ Text(0, 271, &#39;ALARACECAT-RXN__CPLX&#39;),
+ Text(0, 272, &#39;TRANS-RXN-141&#39;),
+ Text(0, 273, &#39;DEOXYRIBOSE-P-ALD-RX&#39;),
+ Text(0, 274, &#39;RXN0-5405&#39;),
+ Text(0, 275, &#39;D-PPENTOMUT-RXN (rev&#39;),
+ Text(0, 276, &#39;DURIDKI-RXN&#39;),
+ Text(0, 277, &#39;URA-PHOSPH-RXN (reve&#39;),
+ Text(0, 278, &#39;3.2.2.10-RXN-UMP/WAT&#39;),
+ Text(0, 279, &#39;KDOTRANS2-RXN&#39;),
+ Text(0, 280, &#39;RXN0-5124&#39;),
+ Text(0, 281, &#39;RXN0-5126&#39;),
+ Text(0, 282, &#39;RXN0-5125&#39;),
+ Text(0, 283, &#39;RXN0-5118&#39;),
+ Text(0, 284, &#39;RXN0-5061&#39;),
+ Text(0, 285, &#39;LIPIDADISACCHARIDESY&#39;),
+ Text(0, 286, &#39;RXN0-5121&#39;),
+ Text(0, 287, &#39;RXN-19737&#39;),
+ Text(0, 288, &#39;RXN0-5127&#39;),
+ Text(0, 289, &#39;TETRAACYLDISACC4KIN-&#39;),
+ Text(0, 290, &#39;KDOTRANS-RXN&#39;),
+ Text(0, 291, &#39;RXN0-5122&#39;),
+ Text(0, 292, &#39;RXN0-5120&#39;),
+ Text(0, 293, &#39;LIPIDXSYNTHESIS-RXN&#39;),
+ Text(0, 294, &#39;RXN0-5123&#39;),
+ Text(0, 295, &#39;MYRISTOYLACYLTRAN-RX&#39;),
+ Text(0, 296, &#39;LAUROYLACYLTRAN-RXN&#39;),
+ Text(0, 297, &#39;UDPGLUCEPIM-RXN&#39;),
+ Text(0, 298, &#39;RXN0-2421&#39;),
+ Text(0, 299, &#39;SPERMIDINESYN-RXN&#39;),
+ Text(0, 300, &#39;SAMDECARB-RXN&#39;),
+ Text(0, 301, &#39;METHYLTHIOADENOSINE-&#39;),
+ Text(0, 302, &#39;TRANS-RXN0-461&#39;),
+ Text(0, 303, &#39;GLYCDEH-RXN&#39;),
+ Text(0, 304, &#39;CARDIOLIPSYN-RXN-CPD&#39;),
+ Text(0, 305, &#39;RXN0-313 (reverse)&#39;),
+ Text(0, 306, &#39;RXN-9772&#39;),
+ Text(0, 307, &#39;QUINOLINATE-SYNTHA-R&#39;),
+ Text(0, 308, &#39;NAD-SYNTH-NH3-RXN&#39;),
+ Text(0, 309, &#39;QUINOPRIBOTRANS-RXN &#39;),
+ Text(0, 310, &#39;NICONUCADENYLYLTRAN-&#39;),
+ Text(0, 311, &#39;TRANS-RXN0-497&#39;),
+ Text(0, 312, &#39;PANTOATE-BETA-ALANIN&#39;),
+ Text(0, 313, &#39;3-CH3-2-OXOBUTANOATE&#39;),
+ Text(0, 314, &#39;2-DEHYDROPANTOATE-RE&#39;),
+ Text(0, 315, &#39;ASPDECARBOX-RXN&#39;),
+ Text(0, 316, &#39;RXN-14025[CCO-CYTOSO&#39;),
+ Text(0, 317, &#39;P-PANTOCYSLIG-RXN&#39;),
+ Text(0, 318, &#39;PANTEPADENYLYLTRAN-R&#39;),
+ Text(0, 319, &#39;DEPHOSPHOCOAKIN-RXN&#39;),
+ Text(0, 320, &#39;PANTOTHENATE-KIN-RXN&#39;),
+ Text(0, 321, &#39;P-PANTOCYSDECARB-RXN&#39;),
+ Text(0, 322, &#39;RXN0-5461&#39;),
+ Text(0, 323, &#39;RXN-15943 (reverse)&#39;),
+ Text(0, 324, &#39;ADENOSYLHOMOCYSTEINE&#39;),
+ Text(0, 325, &#39;RIBOSYLHOMOCYSTEINAS&#39;),
+ Text(0, 326, &#39;RXN-15216&#39;),
+ Text(0, 327, &#39;MALSYN-RXN&#39;),
+ Text(0, 328, &#39;TRANS-RXN-62A&#39;),
+ Text(0, 329, &#39;RXN-11302&#39;),
+ Text(0, 330, &#39;DALADALALIG-RXN__DAL&#39;),
+ Text(0, 331, &#39;GLURS-RXN-GLT-tRNAs/&#39;),
+ Text(0, 332, &#39;GLUTRNAREDUCT-RXN (r&#39;),
+ Text(0, 333, &#39;GSAAMINOTRANS-RXN&#39;),
+ Text(0, 334, &#39;RXN0-5289 (reverse)&#39;),
+ Text(0, 335, &#39;RXN0-6562&#39;),
+ Text(0, 336, &#39;RXN0-305&#39;),
+ Text(0, 337, &#39;PRODISULFREDUCT-A-RX&#39;),
+ Text(0, 338, &#39;RXN0-722 (reverse)&#39;),
+ Text(0, 339, &#39;NUCLEOSIDE-DIPHOSPHA&#39;),
+ Text(0, 340, &#39;RXN0-2501&#39;),
+ Text(0, 341, &#39;ACETATEKIN-RXN&#39;),
+ Text(0, 342, &#39;TRANS-RXN-1&#39;),
+ Text(0, 343, &#39;PORPHOBILSYNTH-RXN&#39;),
+ Text(0, 344, &#39;RXN-8992&#39;),
+ Text(0, 345, &#39;ASNSYNA-RXN__ASNSYNB&#39;),
+ Text(0, 346, &#39;CHORPYRLY-RXN&#39;),
+ Text(0, 347, &#39;ISOCHORSYN-RXN__ENTC&#39;),
+ Text(0, 348, &#39;UGD-RXN&#39;),
+ Text(0, 349, &#39;2-OCTAPRENYLPHENOL-H&#39;),
+ Text(0, 350, &#39;2-OCTAPRENYL-6-METHO&#39;),
+ Text(0, 351, &#39;OCTAPRENYL-METHYL-ME&#39;),
+ Text(0, 352, &#39;2-OCTAPRENYL-6-OHPHE&#39;),
+ Text(0, 353, &#39;DHHB-METHYLTRANSFER-&#39;),
+ Text(0, 354, &#39;2-OCTAPRENYL-METHOXY&#39;),
+ Text(0, 355, &#39;4OHBENZOATE-OCTAPREN&#39;),
+ Text(0, 356, &#39;3-OCTAPRENYL-4-OHBEN&#39;),
+ Text(0, 357, &#39;LUMAZINESYN-RXN&#39;),
+ Text(0, 358, &#39;DIOHBUTANONEPSYN-RXN&#39;),
+ Text(0, 359, &#39;DHBDEHYD-RXN&#39;),
+ Text(0, 360, &#39;ISOCHORMAT-RXN&#39;),
+ Text(0, 361, &#39;RXN-6081&#39;),
+ Text(0, 362, &#39;RXN-11032 (reverse)&#39;),
+ Text(0, 363, &#39;RXN3O-470-ACETALD//C&#39;),
+ Text(0, 364, &#39;RXN0-16&#39;),
+ Text(0, 365, &#39;GLUTDECARBOX-RXN__GL&#39;),
+ Text(0, 366, &#39;UNDECAPRENYL-DIPHOSP&#39;),
+ Text(0, 367, &#39;NAD-KIN-RXN&#39;),
+ Text(0, 368, &#39;GTP-CYCLOHYDRO-II-RX&#39;),
+ Text(0, 369, &#39;RIBOFLAVINSYNDEAM-RX&#39;),
+ Text(0, 370, &#39;RIBOFLAVINSYNREDUC-R&#39;),
+ Text(0, 371, &#39;RIBOFLAVIN-SYN-RXN&#39;),
+ Text(0, 372, &#39;RIBOPHOSPHAT-RXN&#39;),
+ Text(0, 373, &#39;RXN-9535__FABB-CPLX&#39;),
+ Text(0, 374, &#39;RIBOFLAVINKIN-RXN&#39;),
+ Text(0, 375, &#39;RXN0-6550&#39;),
+ Text(0, 376, &#39;OHMETHYLBILANESYN-RX&#39;),
+ Text(0, 377, &#39;UROGENIIISYN-RXN&#39;),
+ Text(0, 378, &#39;DMK-RXN&#39;),
+ Text(0, 379, &#39;O-SUCCINYLBENZOATE-C&#39;),
+ Text(0, 380, &#39;2.5.1.64-RXN&#39;),
+ Text(0, 381, &#39;RXN-9311&#39;),
+ Text(0, 382, &#39;NAPHTHOATE-SYN-RXN&#39;),
+ Text(0, 383, &#39;RXN-9310&#39;),
+ Text(0, 384, &#39;O-SUCCINYLBENZOATE-C&#39;),
+ Text(0, 385, &#39;DIHYDROFOLATESYNTH-R&#39;),
+ Text(0, 386, &#39;GLYCOLALD-DEHYDROG-R&#39;),
+ Text(0, 387, &#39;GTP-CYCLOHYDRO-I-RXN&#39;),
+ Text(0, 388, &#39;H2NEOPTERINP3PYROPHO&#39;),
+ Text(0, 389, &#39;H2PTERIDINEPYROPHOSP&#39;),
+ Text(0, 390, &#39;ADCLY-RXN&#39;),
+ Text(0, 391, &#39;H2PTEROATESYNTH-RXN&#39;),
+ Text(0, 392, &#39;PABASYN-RXN&#39;),
+ Text(0, 393, &#39;DIHYDRONEOPTERIN-MON&#39;),
+ Text(0, 394, &#39;GLYCOLATEDEHYDRO-RXN&#39;),
+ Text(0, 395, &#39;H2NEOPTERINALDOL-RXN&#39;),
+ Text(0, 396, &#39;FADSYN-RXN&#39;),
+ Text(0, 397, &#39;RXN0-12&#39;),
+ Text(0, 398, &#39;TRANS-RXN-141B&#39;),
+ Text(0, 399, &#39;ENTMULTI-RXN&#39;),
+ Text(0, 400, &#39;RXN0-1461&#39;),
+ Text(0, 401, &#39;DIMETHUROPORDEHYDROG&#39;),
+ Text(0, 402, &#39;RXN-13403&#39;),
+ Text(0, 403, &#39;PROTOHEMEFERROCHELAT&#39;),
+ Text(0, 404, &#39;SIROHEME-FERROCHELAT&#39;),
+ Text(0, 405, &#39;RXN-21483-PROTOPORPH&#39;),
+ Text(0, 406, &#39;UROGENDECARBOX-RXN&#39;),
+ Text(0, 407, &#39;ADOMET-DMK-METHYLTRA&#39;),
+ Text(0, 408, &#39;RXN-11319&#39;),
+ Text(0, 409, &#39;PYRIMSYN1-RXN&#39;),
+ Text(0, 410, &#39;RXN-9788&#39;),
+ Text(0, 411, &#39;PDXJ-RXN&#39;),
+ Text(0, 412, &#39;RXN-12611&#39;),
+ Text(0, 413, &#39;THIAZOLSYN2-RXN&#39;),
+ Text(0, 414, &#39;ERYTH4PDEHYDROG-RXN&#39;),
+ Text(0, 415, &#39;RXN-9789&#39;),
+ Text(0, 416, &#39;RXN-13179&#39;),
+ Text(0, 417, &#39;ERYTHRON4PDEHYDROG-R&#39;),
+ Text(0, 418, &#39;THI-P-KIN-RXN&#39;),
+ Text(0, 419, &#39;PNPOXI-RXN&#39;),
+ Text(0, 420, &#39;PSERTRANSAMPYR-RXN (&#39;),
+ Text(0, 421, &#39;RXN-9787&#39;),
+ Text(0, 422, &#39;PYRIMSYN3-RXN&#39;),
+ Text(0, 423, &#39;TRANS-RXN0-500&#39;),
+ Text(0, 424, &#39;TRANS-RXN0-556[CCO-P&#39;),
+ Text(0, 425, &#39;PRPPSYN-RXN-CPD-1531&#39;),
+ Text(0, 426, &#39;RXN0-7352-GMP/WATER/&#39;),
+ Text(0, 427, &#39;RXN0-313__CPLX0-201 &#39;),
+ Text(0, 428, &#39;RXN0-748 (reverse)&#39;),
+ Text(0, 429, &#39;GMKALT-RXN (reverse)&#39;),
+ Text(0, 430, &#39;GDPPYPHOSKIN-RXN&#39;),
+ Text(0, 431, &#39;ISOCHORSYN-RXN__MENF&#39;),
+ Text(0, 432, &#39;CATAL-RXN__HYDROPERO&#39;),
+ Text(0, 433, &#39;RXN0-5185[CCO-CYTOSO&#39;),
+ Text(0, 434, &#39;RXN0-723&#39;),
+ Text(0, 435, &#39;RXN0-745&#39;),
+ Text(0, 436, &#39;2.8.1.6-RXN&#39;),
+ Text(0, 437, &#39;DETHIOBIOTIN-SYN-RXN&#39;),
+ Text(0, 438, &#39;RXN-11479&#39;),
+ Text(0, 439, &#39;RXN-11484&#39;),
+ Text(0, 440, &#39;RXN-11474&#39;),
+ Text(0, 441, &#39;RXN-11476 (reverse)&#39;),
+ Text(0, 442, &#39;RXN-11478 (reverse)&#39;),
+ Text(0, 443, &#39;RXN-11480 (reverse)&#39;),
+ Text(0, 444, &#39;RXN-11482 (reverse)&#39;),
+ Text(0, 445, &#39;FERREDOXIN--NAD+-RED&#39;),
+ Text(0, 446, &#39;RXN-11483&#39;),
+ Text(0, 447, &#39;RXN-11475&#39;),
+ Text(0, 448, &#39;RXN-12588&#39;),
+ Text(0, 449, &#39;DAPASYN-RXN&#39;),
+ Text(0, 450, &#39;ACETYL-COA-ACETYLTRA&#39;),
+ Text(0, 451, &#39;RXN-11481&#39;),
+ Text(0, 452, &#39;RXN-11477&#39;),
+ Text(0, 453, &#39;TRANS-RXN0-459&#39;),
+ Text(0, 454, &#39;RXN0-746&#39;),
+ Text(0, 455, &#39;ACONITATEDEHYDR-RXN&#39;),
+ Text(0, 456, &#39;TRANS-RXN-141A&#39;),
+ Text(0, 457, &#39;RXN0-384__H2NEOPTERI&#39;),
+ Text(0, 458, &#39;3.2.2.10-RXN-CMP/WAT&#39;),
+ Text(0, 459, &#39;F16BDEPHOS-RXN[CCO-C&#39;),
+ Text(0, 460, &#39;INOSINEKIN-RXN&#39;),
+ Text(0, 461, &#39;RXN0-310&#39;),
+ Text(0, 462, &#39;RXN0-5199&#39;),
+ Text(0, 463, &#39;RXN-7609[CCO-CYTOSOL&#39;),
+ Text(0, 464, &#39;METHYLMALONYL-COA-MU&#39;),
+ Text(0, 465, &#39;INOPHOSPHOR-RXN (rev&#39;),
+ Text(0, 466, &#39;DEOXYADENPHOSPHOR-RX&#39;),
+ Text(0, 467, &#39;RXN0-5038&#39;),
+ Text(0, 468, &#39;RXN-14026[CCO-CYTOSO&#39;),
+ Text(0, 469, &#39;DEOXYGUANPHOSPHOR-RX&#39;)]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_fbagd_generate_flow_data_class_40_1.png" src="../../_images/notebooks_fbagd_generate_flow_data_class_40_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Sd</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;ADCLY-RXN&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+NAD[c]                          0
+NADH[c]                         0
+PROTON[c]                       1
+GLUCONATE[c]                    0
+NADP[c]                         0
+                               ..
+R-3-hydroxymyristoyl-ACPs[c]    0
+Adenylated-ThiS-Proteins[c]     0
+ThiS-CoASH-proteins[c]          0
+Thi-S[c]                        0
+FRU[p]                          0
+Name: ADCLY-RXN, Length: 491, dtype: int8
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021-2023, The Vivarium E. coli Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.protein_degradation
+   :members:
+   :undoc-members:
+   :show-inheritance:

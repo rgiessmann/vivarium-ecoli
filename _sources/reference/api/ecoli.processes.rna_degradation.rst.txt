@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.rna_degradation
+   :members:
+   :undoc-members:
+   :show-inheritance:

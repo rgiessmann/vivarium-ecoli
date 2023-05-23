@@ -1,0 +1,25 @@
+ecoli.processes.environment package
+===================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ecoli.processes.environment.derive_globals
+   ecoli.processes.environment.diffusion_field
+   ecoli.processes.environment.exchange
+   ecoli.processes.environment.field_timeline
+   ecoli.processes.environment.local_field
+   ecoli.processes.environment.lysis
+   ecoli.processes.environment.multibody_physics
+   ecoli.processes.environment.reaction_diffusion_field
+
+Module contents
+---------------
+
+.. automodule:: ecoli.processes.environment
+   :members:
+   :undoc-members:
+   :show-inheritance:

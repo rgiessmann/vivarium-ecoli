@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.two_component_system
+   :members:
+   :undoc-members:
+   :show-inheritance:

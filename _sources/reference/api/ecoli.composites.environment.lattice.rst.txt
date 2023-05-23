@@ -1,0 +1,4 @@
+.. automodule:: ecoli.composites.environment.lattice
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,4 @@
+.. automodule:: ecoli.composites.porin_fickian
+   :members:
+   :undoc-members:
+   :show-inheritance:

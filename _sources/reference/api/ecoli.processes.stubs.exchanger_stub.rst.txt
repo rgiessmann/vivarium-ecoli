@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.stubs.exchanger_stub
+   :members:
+   :undoc-members:
+   :show-inheritance:

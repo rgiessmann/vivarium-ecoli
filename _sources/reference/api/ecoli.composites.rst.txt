@@ -1,0 +1,33 @@
+ecoli.composites package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ecoli.composites.ecoli_configs
+   ecoli.composites.environment
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ecoli.composites.chemotaxis_minimal
+   ecoli.composites.ecoli_engine_process
+   ecoli.composites.ecoli_master
+   ecoli.composites.ecoli_master_tests
+   ecoli.composites.ecoli_nonpartition
+   ecoli.composites.ecoli_spatial
+   ecoli.composites.porin_fickian
+
+Module contents
+---------------
+
+.. automodule:: ecoli.composites
+   :members:
+   :undoc-members:
+   :show-inheritance:

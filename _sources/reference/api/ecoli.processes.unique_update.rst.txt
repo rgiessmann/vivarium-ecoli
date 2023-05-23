@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.unique_update
+   :members:
+   :undoc-members:
+   :show-inheritance:

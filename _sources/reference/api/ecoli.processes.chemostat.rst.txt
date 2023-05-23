@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.chemostat
+   :members:
+   :undoc-members:
+   :show-inheritance:

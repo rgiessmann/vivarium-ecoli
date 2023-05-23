@@ -1,0 +1,20 @@
+ecoli.processes.chemotaxis package
+==================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ecoli.processes.chemotaxis.chemoreceptor_cluster
+   ecoli.processes.chemotaxis.coarse_motor
+   ecoli.processes.chemotaxis.flagella_motor
+
+Module contents
+---------------
+
+.. automodule:: ecoli.processes.chemotaxis
+   :members:
+   :undoc-members:
+   :show-inheritance:

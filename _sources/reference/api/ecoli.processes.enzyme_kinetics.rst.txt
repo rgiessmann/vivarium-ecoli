@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.enzyme_kinetics
+   :members:
+   :undoc-members:
+   :show-inheritance:

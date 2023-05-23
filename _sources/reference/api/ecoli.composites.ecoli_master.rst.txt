@@ -1,0 +1,4 @@
+.. automodule:: ecoli.composites.ecoli_master
+   :members:
+   :undoc-members:
+   :show-inheritance:

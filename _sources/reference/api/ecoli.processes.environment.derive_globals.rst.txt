@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.environment.derive_globals
+   :members:
+   :undoc-members:
+   :show-inheritance:

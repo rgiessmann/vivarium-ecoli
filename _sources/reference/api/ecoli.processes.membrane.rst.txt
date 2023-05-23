@@ -1,0 +1,18 @@
+ecoli.processes.membrane package
+================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ecoli.processes.membrane.membrane_potential
+
+Module contents
+---------------
+
+.. automodule:: ecoli.processes.membrane
+   :members:
+   :undoc-members:
+   :show-inheritance:

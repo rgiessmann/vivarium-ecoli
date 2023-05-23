@@ -1,0 +1,20 @@
+ecoli package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ecoli.composites
+   ecoli.experiments
+   ecoli.processes
+
+Module contents
+---------------
+
+.. automodule:: ecoli
+   :members:
+   :undoc-members:
+   :show-inheritance:

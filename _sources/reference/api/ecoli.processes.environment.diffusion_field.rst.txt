@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.environment.diffusion_field
+   :members:
+   :undoc-members:
+   :show-inheritance:

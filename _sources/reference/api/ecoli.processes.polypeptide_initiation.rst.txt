@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.polypeptide_initiation
+   :members:
+   :undoc-members:
+   :show-inheritance:

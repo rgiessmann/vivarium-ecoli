@@ -1,0 +1,4 @@
+.. automodule:: ecoli.processes.metabolism_redux
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,4 @@
+.. automodule:: ecoli.experiments.metabolism_redux_sim
+   :members:
+   :undoc-members:
+   :show-inheritance:
